@@ -2711,7 +2711,7 @@ if (users == "254114660061@s.whatsapp.net") return m.reply("It's an Owner Number
   break;
 	      case "instagram": case "igdl": case "ig": {
 		      
-const igdl = require("ruhend-scraper");
+const { igdl } = require("ruhend-scraper");
 
   if (!text) {
     return m.reply("Please provide an Instagram link for the video.");
