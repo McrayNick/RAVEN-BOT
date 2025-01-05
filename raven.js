@@ -2740,7 +2740,7 @@ const { igdl } = require("ruhend-scraper");
         video: { url: videoUrl },
         mimetype: "video/mp4",
         caption: `DOWNLOADED BY ${botname}`
-      });
+      },{ quoted: m });
     }
   } catch (error) {
     console.error(error);
@@ -2821,46 +2821,42 @@ if (!text) {
 }
 break;
       case "tiktok": case "tikdl":  {
-if (!text) {
-        return m.reply("𝗣𝗿𝗼𝘃𝗶𝗱𝗲 𝗔 𝘃𝗮𝗹𝗶𝗱 𝗧𝗶𝗸𝘁𝗼𝗸 𝗹𝗶𝗻𝗸 !");
+const { ttdl } = require("ruhend-scraper");
+
+  if (!text) {
+    return m.reply("Please provide an Tiktok link for the video.");
+  }
+
+
+  if (!text.includes('https://www.tiktok.com/')) {
+    return m.reply("That is not a valid Tiktok link.");
+  }
+
+  try {
+    
+    const downloadData = await ttdl(text);
+
+    
+    if (!downloadData || !downloadData.data || downloadData.data.length === 0) {
+      return m.reply("No video found at the provided link.");
     }
 
-    if (!text.includes("tiktok.com")) {
-        return m.reply("That is not a TikTok link.");
+    const videoData = downloadData.data;
+    for (let i = 0; i < Math.min(20, videoData.length); i++) {
+      const video = videoData[i];
+      const videoUrl = video.url;
+
+      await client.sendMessage(m.chat, {
+        video: { url: videoUrl },
+        mimetype: "video/mp4",
+        caption: `DOWNLOADED BY ${botname}`
+      },{ quoted: m });
     }
-
-    try {
-                let data = await fetchJson(`https://api.dreaded.site/api/tiktok?url=${text}`);
-
-
-        if (!data || data.status !== 200 || !data.tiktok || !data.tiktok.video) {
-            return m.reply("𝗦𝗼𝗿𝗿𝘆 𝘁𝗵𝗲 𝗔𝗣𝗜 𝗱𝗶𝗱𝗻'𝘁 𝗿𝗲𝘀𝗽𝗼𝗻𝗱 𝗰𝗼𝗿𝗿𝗲𝗰𝘁𝗹𝘆. 𝗣𝗹𝗲𝗮𝘀𝗲 𝘁𝗿𝘆 𝗔𝗴𝗮𝗶𝗻 𝗹𝗮𝘁𝗲𝗿!");
-        }
-
-       
-        
-
-        const tikvid = data.tiktok.video;
-
-       
-        if (!tikvid) {
-            return m.reply("Wrong TikTok data. Please ensure the video exists.");
-        }
-
-        await client.sendMessage(
-            m.chat,
-            {
-                video: { url: tikvid },
-                caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
-                gifPlayback: false,
-            },
-            { quoted: m }
-        );
-    } catch (e) {
-        console.error("Error occurred:", e);
-        m.reply("An error occurred. API might be down. Error: " + e.message);
-    }
-}
+  } catch (error) {
+    console.error(error);
+    return m.reply("An error occurred while processing the request.");
+  }
+	    }
 break;
 	case 'play2': {
 		      const yts = require("yt-search");
