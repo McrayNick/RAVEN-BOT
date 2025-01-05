@@ -71,6 +71,7 @@
       "g4f":"^1.1.0",
    "acrcloud": "^1.4.0",
     "mumaker": "^2.0.0",
+    "ruhend-scraper": "^8.0.3",
      "ytdl-secktor": "^0.0.1-development", 
  "ytdl-core": "npm:@distube/ytdl-core", 
    "yt-search": "^2.12.1", 
