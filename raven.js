@@ -2828,7 +2828,7 @@ const { ttdl } = require("ruhend-scraper");
   }
 
 
-  if (!text.includes('https://www.tiktok.com/')) {
+  if (!text.includes('tiktok.com')) {
     return m.reply("That is not a valid Tiktok link.");
   }
 
