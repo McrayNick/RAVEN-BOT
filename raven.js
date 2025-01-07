@@ -627,7 +627,7 @@ let options = []
 	  }
 		break;
 
-	      case 'play':{
+	      case 'play2':{
 		      const ytSearch = require('yt-search');
 const fetch = require('node-fetch');
 
@@ -672,7 +672,7 @@ const fetch = require('node-fetch');
         videoDetails = downloadData.result;
       } else {
         // Try Dreaded API if both fail
-        downloadData = await getDownloadData(`https://api.dreaded.site/api/ytdl/video?query=${encodeURIComponent(videoUrl)}`);
+        downloadData = await getDownloadData(`https://api.dreaded.site/api/ytdl/audio?url=${encodeURIComponent(videoUrl)}`);
         if (downloadData.success) {
           downloadUrl = downloadData.result.download_url;
           videoDetails = downloadData.result;
@@ -2858,34 +2858,73 @@ const { ttdl } = require("ruhend-scraper");
   }
 	    }
 break;
-	case 'play2': {
-		      const yts = require("yt-search");
-try {
+	case 'play': {
+		     const axios = require("axios");
 
-if (!text) return m.reply("What song do you want to download ?")
+    const yts = require("yt-search");
+
+    try {
+        if (!text) return m.reply("What song do you want to download?");
+            const {
+                videos
+            } = await yts(text);
+            if (!videos || videos.length <= 0) {
+                m.reply(`No songs found!`)
+                return;
+            }
+            let urlYt = videos[0].url
+
+        let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${urlYt}`);
+        let name = data.title;
+        let audio = data.audioUrl;
 
 
-
-        let data = await fetchJson (`https://api.dreaded.site/api/ytdl/video?query=${text}`)
-
-let name = data.result.title;
-
-await client.sendMessage(m.chat, {
- document: {url: data.result.audioLink},
+        await client.sendMessage(m.chat, {
+ document: {url: audio },
 mimetype: "audio/mpeg",
 caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
  fileName: name }, { quoted: m });
 
 
-
-} catch (error) {
-
-m.reply("Download failed\n" + error)
-
-}
-
-			 }
+    } catch (error) {
+        m.reply("Download failed\n" + error.message);
+    }
+} 
 break;
+	      case "song": {
+		      const axios = require("axios");
+
+    const yts = require("yt-search");
+
+    try {
+        if (!text) return m.reply("What song do you want to download?");
+            const {
+                videos
+            } = await yts(text);
+            if (!videos || videos.length <= 0) {
+                m.reply(`No songs found!`)
+                return;
+            }
+            let urlYt = videos[0].url
+	    await m.reply(`_please wait your download is on progress. . ._`);
+
+        let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${urlYt}`);
+        let name = data.title;
+        let audio = data.audioUrl;
+
+
+        await client.sendMessage(m.chat, {
+ audio: {url: audio },
+mimetype: "audio/mpeg",
+ fileName: name }, { quoted: m });
+
+
+    } catch (error) {
+        m.reply("Download failed\n" + error.message);
+    }
+}
+		      break;
+		      
  case 'sc': case 'script': case 'repo':
 
  client.sendMessage(m.chat, { image: { url: `https://telegra.ph/file/416c3ae0cfe59be8db011.jpg` }, caption: 
@@ -3182,7 +3221,7 @@ const Buffer = await stickerResult.toBuffer();
 }
 break;
  
-	      case "song": {
+	      case "song2": {
 		     const ytSearch = require('yt-search');
 const fetch = require('node-fetch');
 
@@ -3228,7 +3267,7 @@ const fetch = require('node-fetch');
         videoDetails = downloadData.result;
       } else {
         // Try Dreaded API if both fail
-        downloadData = await getDownloadData(`https://api.dreaded.site/api/ytdl/video?query=${encodeURIComponent(videoUrl)}`);
+        downloadData = await getDownloadData(`https://api.dreaded.site/api/ytdl/audio?url=${encodeURIComponent(videoUrl)}`);
         if (downloadData.success) {
           downloadUrl = downloadData.result.download_url;
           videoDetails = downloadData.result;
@@ -3295,70 +3334,29 @@ if (!text) return m.reply("𝗣𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘃𝗮𝗹𝗶�
 	if (urlIndex < 0 || urlIndex >= urls.length)
 		return m.reply('𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗟𝗶𝗻𝗸.');
 
-  // Function to attempt download from API
-  const getDownloadData = async (apiUrl) => {
-    const response = await fetch(apiUrl);
-    return response.json();
-  };
 
-    // Perform a YouTube search based on the query
-    const searchResults = await ytSearch(text);
+        let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${text}`);
+        let name = data.title;
+        let audio = data.audioUrl;
 
-    // Check if any videos were found
-    if (!searchResults || !searchResults.videos.length) {
-      return message.reply('No video found for the specified query.');
+
+        await client.sendMessage(m.chat, {
+ document: {url: audio },
+mimetype: "audio/mpeg",
+caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+ fileName: name }, { quoted: m });
+
+await client.sendMessage(m.chat, {
+ audio: {url: audio},
+mimetype: "audio/mpeg",
+ fileName: name }, { quoted: m });
+
+
+
+    } catch (error) {
+        m.reply("Download failed\n" + error.message);
     }
-
-    const firstVideo = searchResults.videos[0];
-    const videoUrl = firstVideo.url;
-
-    // Attempt to download from different APIs
-    let downloadData;
-    let downloadUrl;
-    let videoDetails;
-
-    // Try Gifted API
-    downloadData = await getDownloadData(`https://api.giftedtech.my.id/api/download/dlmp3?url=${encodeURIComponent(videoUrl)}&apikey=gifted`);
-    if (downloadData.success) {
-      downloadUrl = downloadData.result.download_url;
-      videoDetails = downloadData.result;
-    } else {
-      // Try Yasiya API if Gifted fails
-      downloadData = await getDownloadData(`https://www.dark-yasiya-api.site/download/ytmp3?url=${encodeURIComponent(videoUrl)}`);
-      if (downloadData.success) {
-        downloadUrl = downloadData.result.download_url;
-        videoDetails = downloadData.result;
-      } else {
-        // Try Dreaded API if both fail
-        downloadData = await getDownloadData(`https://api.dreaded.site/api/ytdl/video?query=${encodeURIComponent(videoUrl)}`);
-        if (downloadData.success) {
-          downloadUrl = downloadData.result.download_url;
-          videoDetails = downloadData.result;
-        }
-      }
-    }
-
-    // Check if a valid download URL was found
-    if (!downloadUrl || !videoDetails) {
-      return m.reply('Failed to retrieve download URL from all sources. Please try again later.');
-    }
-
-    // Prepare the message payload with external ad details
-    const messagePayload = {
-      document: { url: downloadUrl },
-      mimetype: 'audio/mpeg',
-      fileName: `${videoDetails.title}.mp3`,
-      caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
-        };
-
-    // Send the download link to the user
-    await client.sendMessage(m.chat, messagePayload, { quoted: m });
-
-  } catch (error) {
-    console.error('Error during download process:', error);
-    return m.reply(`Download failed due to an error: ${error.message || error}`);
-  }
-	    }
+}
         
 		break;
   
@@ -3374,18 +3372,19 @@ if (!text) return m.reply("𝗣𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘃𝗮𝗹𝗶�
         if (urlIndex < 0 || urlIndex >= urls.length)
                 return m.reply('𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗹𝗶𝗻𝗸.');
 
-        let data = await fetchJson (`https://api.dreaded.site/api/ytdl/video?query=${text}`)
+        let data = await fetchJson (`https://api.dreaded.site/api/ytdl/video?url=${text}`)
 		
-let name = data.result.title;
+let video = data.videoUrl;
+let name = data.title;
 		
 await client.sendMessage(m.chat, {
-  video: {url: data.result.videoLink},
+  video: {url: video},
 mimetype: "video/mp4",
 caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
  fileName: name }, { quoted: m });
 
 await client.sendMessage(m.chat, {
- document: {url: data.result.videoLink},
+ document: {url: video},
 mimetype: "video/mp4",
 caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
  fileName: name }, { quoted: m });
@@ -3401,35 +3400,45 @@ m.reply("Download failed\n" + error)
         
 break;
         case 'video': {
-const ytSearch = require('yt-search');
-try {
+const axios = require("axios");
+		
+    const yts = require("yt-search");
 
-if (!text) return m.reply("What video do you want to download ?")
+    try {
+        if (!text) return m.reply("What video do you want to download?");
+            const {
+                videos
+            } = await yts(text);
+            if (!videos || videos.length <= 0) {
+                m.reply(`No videos found!`)
+                return;
+            }
+            let urlYt = videos[0].url
 
-        let data = await fetchJson (`https://api.dreaded.site/api/ytdl/video?query=${text}`)
+        let data = await fetchJson(`https://api.dreaded.site/api/ytdl/video?url=${urlYt}`);
+        let name = data.title;
+        let video = data.videoUrl;
 
-	let name = data.result.title;
-	
+
 await client.sendMessage(m.chat, {
-  video: {url: data.result.videoLink},
+ video: {url: video},
+mimetype: "video/mp4",
+ caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+ fileName: name }, { quoted: m });
+
+
+await client.sendMessage(m.chat, {
+ document: {url: video},
 mimetype: "video/mp4",
 caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
  fileName: name }, { quoted: m });
 
-await client.sendMessage(m.chat, {
- document: {url: data.result.videoLink},
-mimetype: "video/mp4",
-caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
- fileName: name }, { quoted: m });
 
 
-} catch (error) {
-
-m.reply("Download failed\n" + error)
-
+    } catch (error) {
+        m.reply("Download failed\n" + error.message);
+    }
 }
-
-		}
 
 break;  
     case "ping": case "speed": {
