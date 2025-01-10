@@ -2873,10 +2873,20 @@ break;
                 return;
             }
             let urlYt = videos[0].url
-
-        let data = await fetchJson(`https://api.dreaded.site/api/ytdl2/audio?url=${urlYt}`);
+	    
+	    {   //Try first API
+        let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${urlYt}`);
+	 
         let name = data.title;
         let audio = data.audioUrl;
+	    }
+	    else{
+		//Try second API
+	let data = await fetchJson(`https://api.dreaded.site/api/ytdl2/audio?url=${urlYt}`);
+	    
+		 let name = data.title;
+        let audio = data.audioUrl;
+	    }
 
 
         await client.sendMessage(m.chat, {
