@@ -2874,7 +2874,7 @@ break;
             }
             let urlYt = videos[0].url
 
-        let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${urlYt}`);
+        let data = await fetchJson(`https://api.dreaded.site/api/ytdl2/audio?url=${urlYt}`);
         let name = data.title;
         let audio = data.audioUrl;
 
@@ -2914,7 +2914,7 @@ break;
             let urlYt = videos[0].url
 	    await m.reply(`_please wait your download is on progress. . ._`);
 
-        let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${urlYt}`);
+        let data = await fetchJson(`https://api.dreaded.site/api/ytdl2/audio?url=${urlYt}`);
         let name = data.title;
         let audio = data.audioUrl;
 
