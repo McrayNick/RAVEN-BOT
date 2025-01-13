@@ -3113,7 +3113,7 @@ break;
                  } 
  break;
  
-case "whatsong": case "analyse":
+case "whatsong": case "shazam":
 
 function _0x14eb(){const _0x17ec6c=['Audio\x20downloading\x20->','mediaType','statSync','1919133FdmqGs','quoted','name','\x0a*•\x20Artists:*\x20','Too\x20big!','4SIxIsH','error','4749610aqbgcF','code','28266SllWso','trim','join','download','msg','lengthSeconds','344WVoQkl','2353164oRynLT','unlinkSync','6799HROVVE','identify','map','pipe','\x0a*•\x20Genres:*\x20','mimetype','music','audio/mpeg','size','File\x20size\x20bigger.','audioBitrate','KKbVWlTNCL3JjxjrWnywMdvQGanyhKRN0fpQxyUo','floor','.mp3','finish','identify-eu-west-1.acrcloud.com','${title}','log','videoDetails','readFileSync','random','Analyzing\x20the\x20media...','chat','*!!','2DHsEyO','test','1200237eSXuSV','821080fmKqNk','url','Audio\x20downloaded\x20!\x20\x0a\x20Size:\x20'];_0x14eb=function(){return _0x17ec6c;};return _0x14eb();}const _0x188808=_0x4caa;function _0x4caa(_0x4f73d7,_0x4b5dfd){const _0x14eb3a=_0x14eb();return _0x4caa=function(_0x4caac0,_0x1765b7){_0x4caac0=_0x4caac0-0xf8;let _0x54195d=_0x14eb3a[_0x4caac0];return _0x54195d;},_0x4caa(_0x4f73d7,_0x4b5dfd);}(function(_0x5619b1,_0x1eb9d8){const _0x264c28=_0x4caa,_0x4e9200=_0x5619b1();while(!![]){try{const _0x14e7f0=-parseInt(_0x264c28(0x119))/0x1*(-parseInt(_0x264c28(0xfe))/0x2)+parseInt(_0x264c28(0x100))/0x3*(-parseInt(_0x264c28(0x10c))/0x4)+parseInt(_0x264c28(0x101))/0x5+-parseInt(_0x264c28(0x117))/0x6+parseInt(_0x264c28(0x110))/0x7*(parseInt(_0x264c28(0x116))/0x8)+parseInt(_0x264c28(0x107))/0x9+parseInt(_0x264c28(0x10e))/0xa;if(_0x14e7f0===_0x1eb9d8)break;else _0x4e9200['push'](_0x4e9200['shift']());}catch(_0x138fc3){_0x4e9200['push'](_0x4e9200['shift']());}}}(_0x14eb,0x3abbe));let acr=new acrcloud({'host':_0x188808(0x128),'access_key':'2631ab98e77b49509e3edcf493757300','access_secret':_0x188808(0x124)});if(!m['quoted'])throw'Tag\x20a\x20short\x20video\x20or\x20audio';let d=m['quoted']?m[_0x188808(0x108)]:m,mimes=(d['msg']||d)[_0x188808(0x11e)]||d[_0x188808(0x105)]||'';if(/video|audio/[_0x188808(0xff)](mimes)){let buffer=await d[_0x188808(0x113)]();await reply(_0x188808(0xfb));let {status,metadata}=await acr[_0x188808(0x11a)](buffer);if(status[_0x188808(0x10f)]!==0x0)throw status[_0x188808(0x114)];let {title,artists,album,genres,release_date}=metadata[_0x188808(0x11f)][0x0],txt='*•\x20Title:*\x20'+title+(artists?_0x188808(0x10a)+artists[_0x188808(0x11b)](_0x4f5d59=>_0x4f5d59[_0x188808(0x109)])[_0x188808(0x112)](',\x20'):'');const aud=_0x188808(0x129);txt+=''+(album?'\x0a*•\x20Album:*\x20'+album[_0x188808(0x109)]:'')+(genres?_0x188808(0x11d)+genres[_0x188808(0x11b)](_0xf7bf2e=>_0xf7bf2e[_0x188808(0x109)])[_0x188808(0x112)](',\x20'):'')+'\x0a',txt+='*•\x20Release\x20Date:*\x20'+release_date,await client['sendMessage'](m[_0x188808(0xfc)],{'text':txt[_0x188808(0x111)]()},{'quoted':m});const {videos}=await yts(title);if(!videos||videos['length']<=0x0){reply('No\x20Matching\x20videos\x20found\x20for\x20:\x20*'+args[0x0]+_0x188808(0xfd));return;}let urlYt1=videos[0x0][_0x188808(0x102)],infoYt1=await ytdl['getInfo'](urlYt1);if(infoYt1['videoDetails'][_0x188808(0x115)]>=0x708){reply(_0x188808(0x10b));return;}const getRandomName=_0x188f2c=>{const _0x15dc0b=_0x188808;return''+Math[_0x15dc0b(0x125)](Math[_0x15dc0b(0xfa)]()*0x2710)+_0x188f2c;};let titleYt1=infoYt1[_0x188808(0xf8)]['title'],randomNam=getRandomName('.mp3');const stream=ytdl(urlYt1,{'filter':_0x5ac95f=>_0x5ac95f['audioBitrate']==0xa0||_0x5ac95f[_0x188808(0x123)]==0x80})[_0x188808(0x11c)](fs['createWriteStream']('./'+randomNam));console[_0x188808(0x12a)](_0x188808(0x104),urlYt1),await new Promise((_0x1cc1a5,_0x4efba3)=>{const _0x426073=_0x188808;stream['on'](_0x426073(0x10d),_0x4efba3),stream['on'](_0x426073(0x127),_0x1cc1a5);});let stats=fs[_0x188808(0x106)]('./'+randomNam),fileSizeInBytes=stats[_0x188808(0x121)],fileSizeInMegabytes=fileSizeInBytes/(0x400*0x400);console[_0x188808(0x12a)](_0x188808(0x103)+fileSizeInMegabytes),fileSizeInMegabytes<=0x28?await client['sendMessage'](from,{'document':fs[_0x188808(0xf9)]('./'+randomNam),'mimetype':_0x188808(0x120),'fileName':titleYt1+_0x188808(0x126)},{'quoted':m}):reply(_0x188808(0x122)),fs[_0x188808(0x118)]('./'+randomNam);}
     break; 
@@ -3347,24 +3347,68 @@ if (!text) return m.reply("𝗣𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘃𝗮𝗹𝗶�
 		return m.reply('𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗟𝗶𝗻𝗸.');
 
 
-        let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${text}`);
-        let name = data.title;
-        let audio = data.audioUrl;
+        try {
+
+                    let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${text}`);
+
+        if (!data || !data.result || !data.result.download || !data.result.download.url) {
+            return m.reply("Failed to fetch audio from the API.");
+        }
+
+        const {
+            metadata: { title, thumbnail, duration, author },
+            download: { url: audioUrl, quality, filename },
+        } = data.result;
+
+        await client.sendMessage(
+            m.chat,
+            {
+                document: { url: audioUrl },
+                mimetype: "audio/mpeg",
+		caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+                fileName: filename,
+            },
+            { quoted: m }
+        );
+        
+                await client.sendMessage(m.chat, {
+ audio: {url: audioUrl },
+mimetype: "audio/mpeg",
+ fileName: filename }, { quoted: m });
+ 
+        } catch (primaryError) {
+            console.error("Primary API failed:", primaryError.message);
 
 
-        await client.sendMessage(m.chat, {
+            try {
+                const fallbackData = await fetchJson(`https://api.dreaded.site/api/ytdl2/audio?url=${text}`);
+                if (!fallbackData || !fallbackData.result || !fallbackData.result.downloadUrl) {
+                    throw new Error("Invalid response from fallback API");
+                }
+
+                const { title: name, downloadUrl: audio } = fallbackData.result;
+
+                await client.sendMessage(
+                    m.chat,
+                    {
+                        audio: { url: audio },
+                        mimetype: "audio/mpeg",
+                        fileName: `${name}.mp3`,
+                    },
+                    { quoted: m }
+                );
+                
+                        await client.sendMessage(m.chat, {
  document: {url: audio },
 mimetype: "audio/mpeg",
 caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
- fileName: name }, { quoted: m });
-
-await client.sendMessage(m.chat, {
- audio: {url: audio},
-mimetype: "audio/mpeg",
- fileName: name }, { quoted: m });
-
-
-
+ fileName: `${name}.mp3` }, { quoted: m });
+ 
+            } catch (fallbackError) {
+                console.error("Fallback API failed:", fallbackError.message);
+                m.reply("Download failed: Unable to retrieve audio from both APIs.");
+            }
+        }
     } catch (error) {
         m.reply("Download failed\n" + error.message);
     }
@@ -3384,69 +3428,178 @@ if (!text) return m.reply("𝗣𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘃𝗮𝗹𝗶�
         if (urlIndex < 0 || urlIndex >= urls.length)
                 return m.reply('𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗹𝗶𝗻𝗸.');
 
-        let data = await fetchJson (`https://api.dreaded.site/api/ytdl/video?url=${text}`)
-		
-let video = data.videoUrl;
-let name = data.title;
-		
-await client.sendMessage(m.chat, {
-  video: {url: video},
-mimetype: "video/mp4",
-caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
- fileName: name }, { quoted: m });
+        try {
 
-await client.sendMessage(m.chat, {
- document: {url: video},
-mimetype: "video/mp4",
-caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
- fileName: name }, { quoted: m });
+            const primaryData = await fetchJson(`https://api.dreaded.site/api/ytdl/video?url=${text}`);
+            if (!primaryData.success || !primaryData.result || !primaryData.result.download) {
+                throw new Error("Invalid response from primary API");
+            }
+
+            const {
+                metadata: { title: name },
+                download: { url: videoUrl, filename },
+            } = primaryData.result;
+
+            await client.sendMessage(
+                m.chat,
+                {
+                    video: { url: videoUrl },
+                    mimetype: "video/mp4",
+                    caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+                    fileName: filename || `${name}.mp4`,
+                },
+                { quoted: m }
+            );
+
+await client.sendMessage(
+                m.chat,
+                {
+                    document: { url: videoUrl },
+                    mimetype: "video/mp4",
+                    caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+                    fileName: filename || `${name}.mp4`,
+                },
+                { quoted: m }
+            );
 
 
-} catch (error) {
+        } catch (primaryError) {
+            console.error("Primary API failed:", primaryError.message);
 
-m.reply("Download failed\n" + error)
 
+            try {
+                const fallbackData = await fetchJson(`https://api.dreaded.site/api/ytdl2/video?url=${text}`);
+                if (!fallbackData.success || !fallbackData.downloadUrl || !fallbackData.title) {
+                    throw new Error("Invalid response from fallback API");
+                }
+
+                const { title: name, downloadUrl: videoUrl } = fallbackData;
+
+                await client.sendMessage(
+                    m.chat,
+                    {
+                        video: { url: videoUrl },
+                        mimetype: "video/mp4",
+                        caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+                        fileName: `${name}.mp4`,
+                    },
+                    { quoted: m }
+                );
+
+await client.sendMessage(
+                    m.chat,
+                    {
+                        document: { url: videoUrl },
+                        mimetype: "video/mp4",
+                        caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+                        fileName: `${name}.mp4`,
+                    },
+                    { quoted: m }
+                );
+
+
+            } catch (fallbackError) {
+                console.error("Fallback API failed:", fallbackError.message);
+                m.reply("Download failed: Unable to retrieve video from both APIs.");
+            }
+        }
+    } catch (error) {
+        m.reply("Download failed\n" + error.message);
+    }
 }
-
-	}
         
 break;
         case 'video': {
 const axios = require("axios");
-		
+
     const yts = require("yt-search");
 
     try {
         if (!text) return m.reply("What video do you want to download?");
-            const {
-                videos
-            } = await yts(text);
-            if (!videos || videos.length <= 0) {
-                m.reply(`No videos found!`)
-                return;
+
+        const { videos } = await yts(text);
+        if (!videos || videos.length === 0) {
+            return m.reply("No videos found!");
+        }
+
+        const urlYt = videos[0].url;
+
+        try {
+           
+            const primaryData = await fetchJson(`https://api.dreaded.site/api/ytdl/video?url=${urlYt}`);
+            if (!primaryData.success || !primaryData.result || !primaryData.result.download) {
+                throw new Error("Invalid response from primary API");
             }
-            let urlYt = videos[0].url
 
-        let data = await fetchJson(`https://api.dreaded.site/api/ytdl/video?url=${urlYt}`);
-        let name = data.title;
-        let video = data.videoUrl;
+            const {
+                metadata: { title: name },
+                download: { url: videoUrl, filename },
+            } = primaryData.result;
+
+            await m.reply(`_Downloading ${name}_. . .`);
+            await client.sendMessage(
+                m.chat,
+                {
+                    video: { url: videoUrl },
+                    mimetype: "video/mp4",
+                    caption: name,
+                    fileName: filename || `${name}.mp4`,
+                },
+                { quoted: m }
+            );
+
+await client.sendMessage(
+                m.chat,
+                {
+                    document: { url: videoUrl },
+                    mimetype: "video/mp4",
+                    caption: name,
+                    fileName: filename || `${name}.mp4`,
+                },
+                { quoted: m }
+            );
 
 
-await client.sendMessage(m.chat, {
- video: {url: video},
-mimetype: "video/mp4",
- caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
- fileName: name }, { quoted: m });
+        } catch (primaryError) {
+            console.error("Primary API failed:", primaryError.message);
+
+          
+            try {
+                const fallbackData = await fetchJson(`https://api.dreaded.site/api/ytdl2/video?url=${urlYt}`);
+                if (!fallbackData.success || !fallbackData.downloadUrl || !fallbackData.title) {
+                    throw new Error("Invalid response from fallback API");
+                }
+
+                const { title: name, downloadUrl: videoUrl } = fallbackData;
+
+await client.sendMessage(
+                    m.chat,
+                    {
+                        video: { url: videoUrl },
+                        mimetype: "video/mp4",
+                        caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+                        fileName: `${name}.mp4`,
+                    },
+                    { quoted: m }
+                );
+
+await client.sendMessage(
+                    m.chat,
+                    {
+                        document: { url: videoUrl },
+                        mimetype: "video/mp4",
+                        caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+                        fileName: `${name}.mp4`,
+                    },
+                    { quoted: m }
+                );
 
 
-await client.sendMessage(m.chat, {
- document: {url: video},
-mimetype: "video/mp4",
-caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
- fileName: name }, { quoted: m });
-
-
-
+            } catch (fallbackError) {
+                console.error("Fallback API failed:", fallbackError.message);
+                m.reply("Download failed: Unable to retrieve video from both APIs.");
+            }
+        }
     } catch (error) {
         m.reply("Download failed\n" + error.message);
     }
