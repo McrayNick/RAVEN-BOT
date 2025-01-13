@@ -2821,42 +2821,63 @@ if (!text) {
 }
 break;
       case "tiktok": case "tikdl":  {
-const { ttdl } = require("ruhend-scraper");
+const fetch = require("node-fetch");
+	      
+    const fetchTikTokData = async (url, retries = 3) => {
+        for (let attempt = 0; attempt < retries; attempt++) {
+            const data = await fetchJson(url);
+            if (
+                data &&
+                data.status === 200 &&
+                data.tiktok &&
+                data.tiktok.video &&
+                data.tiktok.description &&
+                data.tiktok.author.nickname &&
+                data.tiktok.statistics.likeCount
+            ) {
+                return data;
+            }
+        }
+        throw new Error("Failed to fetch valid TikTok data after multiple attempts.");
+    };
 
-  if (!text) {
-    return m.reply("Please provide an Tiktok link for the video.");
-  }
+    try {
+        if (!text) return m.reply("Provide a TikTok link for the video.");
+        if (!text.includes("tiktok.com")) return m.reply("That is not a valid TikTok link.");
 
+        const url = `https://api.dreaded.site/api/tiktok?url=${text}`;
+        const data = await fetchTikTokData(url);
 
-  if (!text.includes('tiktok.com')) {
-    return m.reply("That is not a valid Tiktok link.");
-  }
+        const tikVideoUrl = data.tiktok.video;
+        const tikDescription = data.tiktok.description || "No description available";
+        const tikAuthor = data.tiktok.author.nickname || "Unknown Author";
+        const tikLikes = data.tiktok.statistics.likeCount || "0";
+        const tikComments = data.tiktok.statistics.commentCount || "0";
+        const tikShares = data.tiktok.statistics.shareCount || "0";
 
-  try {
-    
-    const downloadData = await ttdl(text);
+        const caption = `🎥 TikTok Video\n\n📌 *Description:* ${tikDescription}\n👤 *Author:* ${tikAuthor}\n❤️ *Likes:* ${tikLikes}\n💬 *Comments:* ${tikComments}\n🔗 *Shares:* ${tikShares}`;
 
-    
-    if (!downloadData || !downloadData.data || downloadData.data.length === 0) {
-      return m.reply("No video found at the provided link.");
+        m.reply(`TikTok data fetched successfully! Sending...`);
+
+        const response = await fetch(tikVideoUrl);
+
+        if (!response.ok) {
+            throw new Error(`Failed to download video: HTTP ${response.status}`);
+        }
+
+        const arrayBuffer = await response.arrayBuffer(); 
+        const videoBuffer = Buffer.from(arrayBuffer); 
+
+        await client.sendMessage(m.chat, {
+            video: videoBuffer,
+            mimetype: "video/mp4",
+            caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+        }, { quoted: m });
+
+    } catch (error) {
+        m.reply(`Error: ${error.message}`);
     }
-
-    const videoData = downloadData.data;
-    for (let i = 0; i < Math.min(20, videoData.length); i++) {
-      const video = videoData[i];
-      const videoUrl = video.url;
-
-      await client.sendMessage(m.chat, {
-        video: { url: videoUrl },
-        mimetype: "video/mp4",
-        caption: `DOWNLOADED BY ${botname}`
-      },{ quoted: m });
-    }
-  } catch (error) {
-    console.error(error);
-    return m.reply("An error occurred while processing the request.");
-  }
-	    }
+}
 break;
 	case 'play': {
 		     const yts = require("yt-search");
@@ -3536,13 +3557,12 @@ const axios = require("axios");
                 download: { url: videoUrl, filename },
             } = primaryData.result;
 
-            await m.reply(`_Downloading ${name}_. . .`);
             await client.sendMessage(
                 m.chat,
                 {
                     video: { url: videoUrl },
                     mimetype: "video/mp4",
-                    caption: name,
+                    caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
                     fileName: filename || `${name}.mp4`,
                 },
                 { quoted: m }
@@ -3553,7 +3573,7 @@ await client.sendMessage(
                 {
                     document: { url: videoUrl },
                     mimetype: "video/mp4",
-                    caption: name,
+                    caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
                     fileName: filename || `${name}.mp4`,
                 },
                 { quoted: m }
@@ -3708,22 +3728,51 @@ if (!text) return m.reply("No emojis provided ? ")
 
 	  }
 	  break;
-          case "lyrics": 
- try { 
- if (!text) return reply("Provide a song name!"); 
- const searches = await Client.songs.search(text); 
- const firstSong = searches[0]; 
- //await client.sendMessage(from, {text: firstSong}); 
- const lyrics = await firstSong.lyrics(); 
- await client.sendMessage(from, { text: lyrics}, { quoted: m }); 
- } catch (error) { 
-             reply(`I did not find any lyrics for ${text}. Try searching a different song.`); 
-             console.log(error); 
-         } 
- //const artist = await Client.artists.get(456537); 
- //await client.sendMessage(from, { text: artist} {quoted: m}); 
- // console.log("About the Artist:\n", artist, "\n"); 
- break 
+          case "lyrics": {
+		      const fetch = require('node-fetch');
+ const apiUrl = `https://api.dreaded.site/api/lyrics?title=${encodeURIComponent(text)}`;
+
+    try {
+        if (!text) return m.reply("Provide a song name!");
+
+        const data = await fetchJson(apiUrl);
+
+        if (!data.success || !data.result || !data.result.lyrics) {
+            return m.reply(`Sorry, I couldn't find any lyrics for "${text}".`);
+        }
+
+        const { title, artist, link, thumb, lyrics } = data.result;
+
+        const imageUrl = thumb || "https://i.imgur.com/Cgte666.jpeg";
+
+        const imageBuffer = await fetch(imageUrl)
+            .then(res => res.buffer())
+            .catch(err => {
+                console.error('Error fetching image:', err);
+                return null;
+            });
+
+        if (!imageBuffer) {
+            return m.reply("An error occurred while fetching the image.");
+        }
+
+        const caption = `**Title**: ${title}\n**Artist**: ${artist}\n\n${lyrics}`;
+
+        await client.sendMessage(
+            m.chat,
+            {
+                image: imageBuffer,
+                caption: caption
+            },
+            { quoted: m }
+        );
+    } catch (error) {
+        console.error(error);
+        m.reply(`An error occurred while fetching the lyrics for "${text}".`);
+    }
+      }
+	break;
+		
         case "toimage": case "photo": { 
     if (!quoted) throw 'Tag a static video with the command!'; 
     if (!/webp/.test(mime)) throw `Tag a sticker with ${prefix + command}`; 
