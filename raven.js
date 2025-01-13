@@ -2877,10 +2877,13 @@ break;
 	    if (!data || !data.result || !data.result.downloadUrl) {
             return m.reply("Failed to fetch audio from the API.");
         }
-
-        const { title: name, downloadUrl: audio } = data.result;
-
-        await client.sendMessage(m.chat, {
+	    
+const {     metadata: { title, thumbnail, duration, author },
+            download: { url: audioUrl, quality, name },
+        } = data.result;
+	    
+	    
+await client.sendMessage(m.chat, {
  document: {url: audio },
 mimetype: "audio/mpeg",
 caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
