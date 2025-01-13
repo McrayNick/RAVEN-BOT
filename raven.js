@@ -2879,7 +2879,7 @@ break;
         }
 	    
 const {     metadata: { title, thumbnail, duration, author },
-            download: { url: audioUrl, quality, name },
+            download: { url: audioUrl, quality, filename },
         } = data.result;
 	    
 	    
@@ -2887,12 +2887,12 @@ await client.sendMessage(m.chat, {
  document: {url: audioUrl },
 mimetype: "audio/mpeg",
 caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
- fileName: name }, { quoted: m });
+ fileName: filename }, { quoted: m });
 	    
  await client.sendMessage(m.chat, {
  audio: {url: audioUrl },
 mimetype: "audio/mpeg",
- fileName: name }, { quoted: m });
+ fileName: filename }, { quoted: m });
 		
 
 
@@ -2902,33 +2902,37 @@ mimetype: "audio/mpeg",
 } 
 break;
 	      case "song": {
-		      const axios = require("axios");
-
-    const yts = require("yt-search");
+		      const yts = require("yt-search");
 
     try {
         if (!text) return m.reply("What song do you want to download?");
-            const {
-                videos
-            } = await yts(text);
-            if (!videos || videos.length <= 0) {
-                m.reply(`No songs found!`)
-                return;
-            }
-            let urlYt = videos[0].url
+
+        const { videos } = await yts(text);
+        if (!videos || videos.length === 0) return m.reply("No songs found!");
+	    
 	    await m.reply(`_please wait your download is on progress. . ._`);
 
-        let data = await fetchJson(`https://api.dreaded.site/api/ytdl2/audio?url=${urlYt}`);
-        let name = data.title;
-        let audio = data.audioUrl;
+        const urlYt = videos[0].url;
+        let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${urlYt}`);
 
+        if (!data || !data.result || !data.result.download || !data.result.download.url) {
+            return m.reply("Failed to fetch audio from the API.");
+        }
 
-        await client.sendMessage(m.chat, {
- audio: {url: audio },
-mimetype: "audio/mpeg",
- fileName: name }, { quoted: m });
+        const {
+            metadata: { title, thumbnail, duration, author },
+            download: { url: audioUrl, quality, filename },
+        } = data.result;
 
-
+        await client.sendMessage(
+            m.chat,
+            {
+                audio: { url: audioUrl },
+                mimetype: "audio/mpeg",
+                fileName: filename,
+            },
+            { quoted: m }
+        );
     } catch (error) {
         m.reply("Download failed\n" + error.message);
     }
