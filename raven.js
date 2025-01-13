@@ -2884,13 +2884,13 @@ const {     metadata: { title, thumbnail, duration, author },
 	    
 	    
 await client.sendMessage(m.chat, {
- document: {url: audio },
+ document: {url: audioUrl },
 mimetype: "audio/mpeg",
 caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
  fileName: name }, { quoted: m });
 	    
  await client.sendMessage(m.chat, {
- audio: {url: audio },
+ audio: {url: audioUrl },
 mimetype: "audio/mpeg",
  fileName: name }, { quoted: m });
 		
