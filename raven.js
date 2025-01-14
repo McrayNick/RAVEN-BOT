@@ -2857,7 +2857,7 @@ const fetch = require("node-fetch");
 
         const caption = `🎥 TikTok Video\n\n📌 *Description:* ${tikDescription}\n👤 *Author:* ${tikAuthor}\n❤️ *Likes:* ${tikLikes}\n💬 *Comments:* ${tikComments}\n🔗 *Shares:* ${tikShares}`;
 
-        m.reply(`TikTok data fetched successfully! Sending...`);
+        m.reply(`Data fetched successfully✅ wait a moment. . .`);
 
         const response = await fetch(tikVideoUrl);
 
