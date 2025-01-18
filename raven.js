@@ -132,14 +132,13 @@ const runtime = function (seconds) {
     let argsLog = budy.length > 30 ? `${q.substring(0, 30)}...` : budy;
 
 if (wapresence === 'recording' && !m.isGroup) { 
-            
-  client.sendPresenceUpdate('recording', m.chat);
+             client.sendPresenceUpdate('recording', m.chat);
+	
 } else if (wapresence === 'typing' && !m.isGroup) { 
-            
-  client.sendPresenceUpdate('recording', m.chat);
+             client.sendPresenceUpdate('composing', m.chat);
+	
       }	else if (wapresence === 'online' && !m.isGroup) { 
-            
-  client.sendPresenceUpdate('available', m.chat);
+             client.sendPresenceUpdate('available', m.chat);
     }
     
 
