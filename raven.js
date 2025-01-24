@@ -626,7 +626,7 @@ let options = []
 	  }
 		break;
 
-	      case 'play2':{
+	      case 'play':{
 const axios = require('axios');
 const ytSearch = require('yt-search');
 
@@ -689,8 +689,16 @@ const ytSearch = require('yt-search');
       fileName: `${videoDetails.title}.mp3`,
     };
 
+	const messagePaylod = {
+      audio: { url: downloadUrl },
+      mimetype: 'audio/mp4',
+      fileName: `${videoDetails.title}.mp3`,
+    };
+
     // Send the download link to the user
-    await client.sendMessage(m.chat, messagePayload, { quoted: ms });
+    await client.sendMessage(m.chat, messagePayload, { quoted: m });
+
+    await client.sendMessage(m.chat, messagePaylod, { quoted: m });
 
   } catch (error) {
     console.error('Error during download process:', error);
@@ -2875,7 +2883,7 @@ const fetch = require("node-fetch");
     }
 }
 break;
-	case 'play': {
+	case 'play2': {
 		     const yts = require("yt-search");
 
     try {
