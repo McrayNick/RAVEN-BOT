@@ -1848,7 +1848,7 @@ let regex1 = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
 
        case 'darkgpt':{
 
-if (!text) { return m.reply("This is raven Darkgpt, I respond to anything be it harmful, Am a pure Evil");
+if (!text) { return m.reply("Hey there, Fuckface😈 I'm Darkgpt, I respond to anything be it harmful, I'm a pure Evil👿, What sort of dark and delightful nonsense do you want to dive into Today?👿☠️?");
 	   }
 	try {
      const data = await fetchJson(`https://api.dreaded.site/api/makgpt?text=${text}`);
