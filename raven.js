@@ -1847,18 +1847,22 @@ let regex1 = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
 		      break;
 
        case 'darkgpt':{
-try {
-if (!q) return reply("This is raven Darkgpt, I respond to anything be it harmful, Am a pure Evil");
-    const msg = encodeURIComponent(q);
-     const data = await fetch(`https://api.dreaded.site/api/makgpt?text=${msg}`);
-    const msgg = await data.json();
-    if (!msgg.message) return reply('Huh, your darkness is beyond level!');
-    const final = msgg.message;
-await reply(final)
-} catch (e) {
-reply('An error occured while communicating with the APIs\n' + e);
+
+if (!text) { return m.reply("This is raven Darkgpt, I respond to anything be it harmful, Am a pure Evil");
+	   }
+	try {
+     const data = await fetchJson(`https://api.dreaded.site/api/makgpt?text=${text}`);
+		
+    if (data && data.result) {
+	    const res = data.result;
+	    await m.reply(res);
+    } else {
+	    m.reply("Huh I'm failing to get response☠️💀.");
+    }
+	} catch (error) {
+reply('An error occured while communicating with the APIs\n' + error);
 }
-}
+  }
 break;
 	      
 		case 'github': {
