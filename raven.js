@@ -1850,7 +1850,7 @@ let regex1 = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
 try {
 if (!q) return reply("This is raven Darkgpt, I respond to anything be it harmful, Am a pure Evil");
     const msg = encodeURIComponent(q);
-     const data = await fetch(`https://dark.guruapi.tech/egpt?prompt=${msg}`);
+     const data = await fetch(`https://api.dreaded.site/api/makgpt?text=${msg}`);
     const msgg = await data.json();
     if (!msgg.message) return reply('Huh, your darkness is beyond level!');
     const final = msgg.message;
