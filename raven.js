@@ -1848,7 +1848,7 @@ let regex1 = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
 
        case 'darkgpt':{
 
-if (!text) { return m.reply("Hey there, Fuckface😈 I'm Darkgpt, I respond to anything be it harmful, I'm a pure Evil👿, What sort of dark and delightful nonsense do you want to dive into Today?👿☠️?");
+if (!text) { return m.reply("Hey there Fuckface😈, I'm Darkgpt, I respond to anything be it harmful, I'm a pure Evil👿, What sort of dark and delightful nonsense do you want to dive into Today😈 ?");
 	   }
 	try {
      const data = await fetchJson(`https://api.dreaded.site/api/makgpt?text=${text}`);
@@ -2937,26 +2937,24 @@ break;
         const { videos } = await yts(text);
         if (!videos || videos.length === 0) return m.reply("No songs found!");
 	    
-	    await m.reply(`_please wait your download is on progress. . ._`);
-
+await m.reply(`_Please wait your download is in progress_`);
+	    
         const urlYt = videos[0].url;
         let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${urlYt}`);
 
-        if (!data || !data.result || !data.result.download || !data.result.download.url) {
+        if (!data || !data.result || !data.result.url) {
             return m.reply("Failed to fetch audio from the API.");
         }
 
-        const {
-            metadata: { title, thumbnail, duration, author },
-            download: { url: audioUrl, quality, filename },
-        } = data.result;
+        const audioUrl = data.result.url;
+const title = data.result.title;
 
         await client.sendMessage(
             m.chat,
             {
                 audio: { url: audioUrl },
                 mimetype: "audio/mpeg",
-                fileName: filename,
+                fileName: `${title}.mp3`,
             },
             { quoted: m }
         );
@@ -3376,68 +3374,29 @@ if (!text) return m.reply("𝗣𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘃𝗮𝗹𝗶�
 		return m.reply('𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗟𝗶𝗻𝗸.');
 
 
-        try {
+        const { videos } = await yts(text);
+        if (!videos || videos.length === 0) return m.reply("No songs found!");
 
-                    let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${text}`);
+        const urlYt = videos[0].url;
+        let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${urlYt}`);
 
-        if (!data || !data.result || !data.result.download || !data.result.download.url) {
+        if (!data || !data.result || !data.result.url) {
             return m.reply("Failed to fetch audio from the API.");
         }
 
-        const {
-            metadata: { title, thumbnail, duration, author },
-            download: { url: audioUrl, quality, filename },
-        } = data.result;
+        const audioUrl = data.result.url;
+const title = data.result.title;
+
 
         await client.sendMessage(
             m.chat,
             {
-                document: { url: audioUrl },
+                audio: { url: audioUrl },
                 mimetype: "audio/mpeg",
-		caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
-                fileName: filename,
+                fileName: `${title}.mp3`,
             },
             { quoted: m }
         );
-        
-                await client.sendMessage(m.chat, {
- audio: {url: audioUrl },
-mimetype: "audio/mpeg",
- fileName: filename }, { quoted: m });
- 
-        } catch (primaryError) {
-            console.error("Primary API failed:", primaryError.message);
-
-
-            try {
-                const fallbackData = await fetchJson(`https://api.dreaded.site/api/ytdl2/audio?url=${text}`);
-                if (!fallbackData || !fallbackData.result || !fallbackData.result.downloadUrl) {
-                    throw new Error("Invalid response from fallback API");
-                }
-
-                const { title: name, downloadUrl: audio } = fallbackData.result;
-
-                await client.sendMessage(
-                    m.chat,
-                    {
-                        audio: { url: audio },
-                        mimetype: "audio/mpeg",
-                        fileName: `${name}.mp3`,
-                    },
-                    { quoted: m }
-                );
-                
-                        await client.sendMessage(m.chat, {
- document: {url: audio },
-mimetype: "audio/mpeg",
-caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
- fileName: `${name}.mp3` }, { quoted: m });
- 
-            } catch (fallbackError) {
-                console.error("Fallback API failed:", fallbackError.message);
-                m.reply("Download failed: Unable to retrieve audio from both APIs.");
-            }
-        }
     } catch (error) {
         m.reply("Download failed\n" + error.message);
     }
@@ -3457,81 +3416,31 @@ if (!text) return m.reply("𝗣𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘃𝗮𝗹𝗶�
         if (urlIndex < 0 || urlIndex >= urls.length)
                 return m.reply('𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗹𝗶𝗻𝗸.');
 
-        try {
-
-            const primaryData = await fetchJson(`https://api.dreaded.site/api/ytdl/video?url=${text}`);
-            if (!primaryData.success || !primaryData.result || !primaryData.result.download) {
-                throw new Error("Invalid response from primary API");
-            }
-
-            const {
-                metadata: { title: name },
-                download: { url: videoUrl, filename },
-            } = primaryData.result;
-
-            await client.sendMessage(
-                m.chat,
-                {
-                    video: { url: videoUrl },
-                    mimetype: "video/mp4",
-                    caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
-                    fileName: filename || `${name}.mp4`,
-                },
-                { quoted: m }
-            );
-
-await client.sendMessage(
-                m.chat,
-                {
-                    document: { url: videoUrl },
-                    mimetype: "video/mp4",
-                    caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
-                    fileName: filename || `${name}.mp4`,
-                },
-                { quoted: m }
-            );
 
 
-        } catch (primaryError) {
-            console.error("Primary API failed:", primaryError.message);
+        const { videos } = await yts(text);
+        if (!videos || videos.length === 0) return m.reply("No songs found!");
 
+        const urlYt = videos[0].url;
+        let data = await fetchJson(`https://api.dreaded.site/api/ytdl/video?url=${urlYt}`);
 
-            try {
-                const fallbackData = await fetchJson(`https://api.dreaded.site/api/ytdl2/video?url=${text}`);
-                if (!fallbackData.success || !fallbackData.downloadUrl || !fallbackData.title) {
-                    throw new Error("Invalid response from fallback API");
-                }
-
-                const { title: name, downloadUrl: videoUrl } = fallbackData;
-
-                await client.sendMessage(
-                    m.chat,
-                    {
-                        video: { url: videoUrl },
-                        mimetype: "video/mp4",
-                        caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
-                        fileName: `${name}.mp4`,
-                    },
-                    { quoted: m }
-                );
-
-await client.sendMessage(
-                    m.chat,
-                    {
-                        document: { url: videoUrl },
-                        mimetype: "video/mp4",
-                        caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
-                        fileName: `${name}.mp4`,
-                    },
-                    { quoted: m }
-                );
-
-
-            } catch (fallbackError) {
-                console.error("Fallback API failed:", fallbackError.message);
-                m.reply("Download failed: Unable to retrieve video from both APIs.");
-            }
+        if (!data || !data.result || !data.result.url) {
+            return m.reply("Failed to fetch video from the API.");
         }
+
+        const audioUrl = data.result.url;
+const title = data.result.title;
+
+
+        await client.sendMessage(
+            m.chat,
+            {
+                video: { url: audioUrl },
+                mimetype: "video/mpeg",
+                fileName: `${title}.mp4`,
+            },
+            { quoted: m }
+        );
     } catch (error) {
         m.reply("Download failed\n" + error.message);
     }
