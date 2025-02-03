@@ -3538,101 +3538,86 @@ await client.sendMessage(
 }
         
 break;
-        case 'video': {
-const axios = require("axios");
+        case 'video':{
+const axios = require('axios');
+const ytSearch = require('yt-search');
 
-    const yts = require("yt-search");
+  // Check if a query is provided
+  if (!text) {
+    return m.reply("What video do you want to download ?");
+  }
 
-    try {
-        if (!text) return m.reply("What video do you want to download?");
+  try {
+    // Perform a YouTube search based on the query
+    const searchResults = await ytSearch(text);
 
-        const { videos } = await yts(text);
-        if (!videos || videos.length === 0) {
-            return m.reply("No videos found!");
-        }
-
-        const urlYt = videos[0].url;
-
-        try {
-           
-            const primaryData = await fetchJson(`https://api.dreaded.site/api/ytdl/video?url=${urlYt}`);
-            if (!primaryData.success || !primaryData.result || !primaryData.result.download) {
-                throw new Error("Invalid response from primary API");
-            }
-
-            const {
-                metadata: { title: name },
-                download: { url: videoUrl, filename },
-            } = primaryData.result;
-
-            await client.sendMessage(
-                m.chat,
-                {
-                    video: { url: videoUrl },
-                    mimetype: "video/mp4",
-                    caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
-                    fileName: filename || `${name}.mp4`,
-                },
-                { quoted: m }
-            );
-
-await client.sendMessage(
-                m.chat,
-                {
-                    document: { url: videoUrl },
-                    mimetype: "video/mp4",
-                    caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
-                    fileName: filename || `${name}.mp4`,
-                },
-                { quoted: m }
-            );
-
-
-        } catch (primaryError) {
-            console.error("Primary API failed:", primaryError.message);
-
-          
-            try {
-                const fallbackData = await fetchJson(`https://api.dreaded.site/api/ytdl2/video?url=${urlYt}`);
-                if (!fallbackData.success || !fallbackData.downloadUrl || !fallbackData.title) {
-                    throw new Error("Invalid response from fallback API");
-                }
-
-                const { title: name, downloadUrl: videoUrl } = fallbackData;
-
-await client.sendMessage(
-                    m.chat,
-                    {
-                        video: { url: videoUrl },
-                        mimetype: "video/mp4",
-                        caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
-                        fileName: `${name}.mp4`,
-                    },
-                    { quoted: m }
-                );
-
-await client.sendMessage(
-                    m.chat,
-                    {
-                        document: { url: videoUrl },
-                        mimetype: "video/mp4",
-                        caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
-                        fileName: `${name}.mp4`,
-                    },
-                    { quoted: m }
-                );
-
-
-            } catch (fallbackError) {
-                console.error("Fallback API failed:", fallbackError.message);
-                m.reply("Download failed: Unable to retrieve video from both APIs.");
-            }
-        }
-    } catch (error) {
-        m.reply("Download failed\n" + error.message);
+    // Check if any videos were found
+    if (!searchResults || !searchResults.videos.length) {
+      return m.reply('No video found for the specified query.');
     }
-}
 
+    const firstVideo = searchResults.videos[0];
+    const videoUrl = firstVideo.url;
+
+    // Function to get download data from APIs
+    const getDownloadData = async (url) => {
+      try {
+        const response = await axios.get(url);
+        return response.data;
+      } catch (error) {
+        console.error('Error fetching data from API:', error);
+        return { success: false };
+      }
+    };
+	  
+    // List of APIs to try
+    const apis = [
+      `https://api-rin-tohsaka.vercel.app/download/ytmp4?url=${encodeURIComponent(videoUrl)}`,
+      `https://api.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(videoUrl)}`,
+      `https://www.dark-yasiya-api.site/download/ytmp4?url=${encodeURIComponent(videoUrl)}`,
+      `https://api.giftedtech.web.id/api/download/dlmp4?url=${encodeURIComponent(videoUrl)}&apikey=gifted-md`,
+      `https://api.dreaded.site/api/ytdl/video?url=${encodeURIComponent(videoUrl)}`
+    ];
+
+    let downloadData;
+    for (const api of apis) {
+      downloadData = await getDownloadData(api);
+      if (downloadData && downloadData.success) break;
+    }
+
+    // Check if a valid download URL was found
+    if (!downloadData || !downloadData.success) {
+      return m.reply('Failed to fetch audio from the API');
+    }
+
+    const downloadUrl = downloadData.result.download_url;
+    const videoDetails = downloadData.result;
+
+    // Prepare the message payload with external ad details
+    const messagePayload = {
+      document: { url: downloadUrl },
+      mimetype: 'video/mpeg',
+      caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+      fileName: `${videoDetails.title}.mp3`,
+    };
+
+	const messagePaylod = {
+      video: { url: downloadUrl },
+      mimetype: 'video/mp4',
+      caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+      fileName: `${videoDetails.title}.mp4`,
+    };
+
+    // Send the download link to the user
+    await client.sendMessage(m.chat, messagePayload, { quoted: m });
+
+    await client.sendMessage(m.chat, messagePaylod, { quoted: m });
+
+  } catch (error) {
+    console.error('Error during download process:', error);
+    return m.reply(`Download failed due to an error: ${error.message || error}`);
+  }
+							     }
 break;  
     case "ping": case "speed": {
                  
