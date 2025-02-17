@@ -1857,7 +1857,7 @@ if (!text) { return m.reply("Hey there Fuckface😈, I'm Darkgpt, I respond to a
 	    const res = data.result;
 	    await m.reply(res);
     } else {
-	    m.reply("Huh I'm failing to get response☠️💀.");
+	    m.reply("Huh, the silence is deafening, no response whatsoever💀.The API seems to have vanished into the abyss...😔");
     }
 	} catch (error) {
 reply('An error occured while communicating with the APIs\n' + error);
