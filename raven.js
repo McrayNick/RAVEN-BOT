@@ -3204,25 +3204,23 @@ break;
 
   case "vv": case "retrieve":{
 
-if (!m.quoted) return m.reply("Quote a viewonce media!")
+if (!m.quoted) return m.reply("quote a viewonce message eh")
 
-if (m.quoted.message) {
-            let type = Object.keys(m.quoted.message)[0]
-            let q = m.quoted.message[type]
-            let media = await client.downloadMediaMessage(q)
-            if (/video/.test(type)) {
+  const quotedMessage = m.msg?.contextInfo?.quotedMessage;
 
+    if (quotedMessage.imageMessage) {
+      let imageCaption = quotedMessage.imageMessage.caption;
+      let imageUrl = await client.downloadAndSaveMediaMessage(quotedMessage.imageMessage);
+      client.sendMessage(m.chat, { image: { url: imageUrl }, caption: `Retrieved by Raven! 💀\nOriginal caption: ${imageCaption}`}, { quoted: m });
+    }
 
-               await client.sendMessage(m.chat, { video: media, caption: `Retrieved by Raven! ♊\nOriginal caption: ${q.caption}`}, { quoted: m})
+    if (quotedMessage.videoMessage) {
+      let videoCaption = quotedMessage.videoMessage.caption;
+      let videoUrl = await client.downloadAndSaveMediaMessage(quotedMessage.videoMessage);
+      client.sendMessage(m.chat, { video: { url: videoUrl }, caption: `Retrieved by Raven! 💀\nOrigin caption: ${videoCaption}`}, { quoted: m });
+    }
 
-            } else if (/image/.test(type)) {
-
-await client.sendMessage(m.chat, { image: media, caption: `Retrieved by Raven! ♊\nOriginal caption: ${q.caption}`}, { quoted: m})
-
-            }
-         } else m.reply("That is not a viewonce media. . .")
-
-      } 
+      }
 	break;
 		      
     case 'take': {
