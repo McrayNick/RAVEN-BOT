@@ -636,81 +636,75 @@ let options = []
 
 	      case 'play':{
 const axios = require('axios');
-const ytSearch = require('yt-search');
-
-  // Check if a query is provided
-  if (!text) {
-    return m.reply("What song do you want to download ?");
-  }
+const yts = require("yt-search");
+const ffmpeg = require("fluent-ffmpeg");
+const fs = require("fs");
+const path = require("path");
 
   try {
-    // Perform a YouTube search based on the query
-    const searchResults = await ytSearch(text);
+    if (!text) return m.reply("What song do you want to download?");
 
-    // Check if any videos were found
-    if (!searchResults || !searchResults.videos.length) {
-      return m.reply('No video found for the specified query.');
-    }
+    let search = await yts(text);
+    let link = search.all[0].url;
 
-    const firstVideo = searchResults.videos[0];
-    const videoUrl = firstVideo.url;
-
-    // Function to get download data from APIs
-    const getDownloadData = async (url) => {
-      try {
-        const response = await axios.get(url);
-        return response.data;
-      } catch (error) {
-        console.error('Error fetching data from API:', error);
-        return { success: false };
-      }
-    };
-
-    // List of APIs to try
     const apis = [
-      `https://api-rin-tohsaka.vercel.app/download/ytmp4?url=${encodeURIComponent(videoUrl)}`,
-      `https://api.davidcyriltech.my.id/download/ytmp3?url=${encodeURIComponent(videoUrl)}`,
-      `https://www.dark-yasiya-api.site/download/ytmp3?url=${encodeURIComponent(videoUrl)}`,
-      `https://api.giftedtech.web.id/api/download/dlmp3?url=${encodeURIComponent(videoUrl)}&apikey=gifted-md`,
-      `https://api.dreaded.site/api/ytdl/audio?url=${encodeURIComponent(videoUrl)}`
+      `https://apis.davidcyriltech.my.id/youtube/mp3?url=${link}`,
+      `https://api.ryzendesu.vip/api/downloader/ytmp3?url=${link}`
     ];
 
-    let downloadData;
     for (const api of apis) {
-      downloadData = await getDownloadData(api);
-      if (downloadData && downloadData.success) break;
+      try {
+        let data = await fetchJson(api);
+
+        // Checking if the API response is successful
+        if (data.status === 200 || data.success) {
+          let videoUrl = data.result?.downloadUrl || data.url;
+          let outputFileName = `${search.all[0].title.replace(/[^a-zA-Z0-9 ]/g, "")}.mp3`;
+          let outputPath = path.join(__dirname, outputFileName);
+
+          const response = await axios({
+            url: videoUrl,
+            method: "GET",
+            responseType: "stream"
+          });
+
+          if (response.status !== 200) {
+            m.reply("sorry but the API endpoint didn't respond correctly. Try again later.");
+            continue;
+          }
+
+          ffmpeg(response.data)
+            .toFormat("mp3")
+            .save(outputPath)
+            .on("end", async () => {
+              await client.sendMessage(
+                m.chat,
+                {
+                  document: { url: outputPath },
+                  mimetype: "audio/mp3",
+		  caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+                  fileName: outputFileName,
+                },
+                { quoted: m }
+              );
+              fs.unlinkSync(outputPath);
+            })
+            .on("error", (err) => {
+              m.reply("Download failed\n" + err.message);
+            });
+
+          return;
+        }
+      } catch (e) {
+        // Continue to the next API if one fails
+        continue;
+      }
     }
 
-    // Check if a valid download URL was found
-    if (!downloadData || !downloadData.success) {
-      return m.reply('Failed to fetch audio from the API');
-    }
-
-    const downloadUrl = downloadData.result.download_url;
-    const videoDetails = downloadData.result;
-
-    // Prepare the message payload with external ad details
-    const messagePayload = {
-      document: { url: downloadUrl },
-      mimetype: 'audio/mpeg',
-      caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
-      fileName: `${videoDetails.title}.mp3`,
-    };
-
-	const messagePaylod = {
-      audio: { url: downloadUrl },
-      mimetype: 'audio/mp4',
-      fileName: `${videoDetails.title}.mp3`,
-    };
-
-    // Send the download link to the user
-    await client.sendMessage(m.chat, messagePayload, { quoted: m });
-
-    await client.sendMessage(m.chat, messagePaylod, { quoted: m });
-
+    // If no APIs succeeded
+    m.reply("An error occurred. All APIs might be down or unable to process the request.");
   } catch (error) {
-    console.error('Error during download process:', error);
-    return m.reply(`Download failed due to an error: ${error.message || error}`);
+    m.reply("Download failed\n" + error.message);
   }
 }
 	  break;
@@ -1390,11 +1384,11 @@ m.reply("*Wait a moment...*");
       if (_0x2f8982.length == 0) {
         return m.reply("No foreigners detected.");
       }
-      let _0x2d7d67 = `Foreigners are members whose country code is not ${mycode}. The following  ${_0x2f8982.length} foreigners were found:- \n`;
+      let _0x2d7d67 = `𝗙𝗼𝗿𝗲𝗶𝗴𝗻𝗲𝗿𝘀 𝗮𝗿𝗲 𝗺𝗲𝗺𝗯𝗲𝗿𝘀 𝘄𝗵𝗼𝘀𝗲 𝗰𝗼𝘂𝗻𝘁𝗿𝘆 𝗰𝗼𝗱𝗲 𝗶𝘀 𝗻𝗼𝘁 ${mycode}. 𝗧𝗵𝗲 𝗳𝗼𝗹𝗹𝗼𝘄𝗶𝗻𝗴  ${_0x2f8982.length} 𝗳𝗼𝗿𝗲𝗶𝗴𝗻𝗲𝗿𝘀 𝘄𝗲𝗿𝗲 𝗱𝗲𝘁𝗲𝗰𝘁𝗲𝗱:- \n`;
       for (let _0x28761c of _0x2f8982) {
         _0x2d7d67 += `𓅂 @${_0x28761c.split("@")[0]}\n`;
       }
-      _0x2d7d67 += `\nTo remove them send .foreigners -x`;
+      _0x2d7d67 += `\n𝗧𝗼 𝗿𝗲𝗺𝗼𝘃𝗲 𝘁𝗵𝗲𝗺 𝘀𝗲𝗻𝗱 foreigners -x`;
       client.sendMessage(m.chat, {
         text: _0x2d7d67,
         mentions: _0x2f8982
@@ -1404,14 +1398,14 @@ m.reply("*Wait a moment...*");
     } else if (args[0] == "-x") {
       setTimeout(() => {
         client.sendMessage(m.chat, {
-          text: `Raven will now remove all ${_0x2f8982.length} foreigners from this group chat in the next second.\n\nGood bye Foreigners. 😔`
+          text: `𝗥𝗮𝘃𝗲𝗻 𝘄𝗶𝗹𝗹 𝗻𝗼𝘄 𝗿𝗲𝗺𝗼𝘃𝗲 𝗮𝗹𝗹 ${_0x2f8982.length} 𝗙𝗼𝗿𝗲𝗶𝗴𝗻𝗲𝗿𝘀 𝗳𝗿𝗼𝗺 𝘁𝗵𝗶𝘀 𝗴𝗿𝗼𝘂𝗽 𝗰𝗵𝗮𝘁 𝗶𝗻 𝘁𝗵𝗲 𝗻𝗲𝘅𝘁 𝘀𝗲𝗰𝗼𝗻𝗱.\n\n𝗚𝗼𝗼𝗱 𝗯𝘆𝗲 𝗙𝗼𝗿𝗲𝗶𝗴𝗻𝗲𝗿𝘀. 𝗧𝗵𝗶𝘀 𝗽𝗿𝗼𝗰𝗲𝘀𝘀 𝗰𝗮𝗻𝗻𝗼𝘁 𝗯𝗲 𝘁𝗲𝗿𝗺𝗶𝗻𝗮𝘁𝗲𝗱⚠️`
         }, {
           quoted: m
         });
         setTimeout(() => {
           client.groupParticipantsUpdate(m.chat, _0x2f8982, "remove");
           setTimeout(() => {
-            m.reply("🎭 Done. All foreigners removed successfully.");
+            m.reply("𝗔𝗻𝘆 𝗿𝗲𝗺𝗮𝗶𝗻𝗶𝗻𝗴 𝗙𝗼𝗿𝗲𝗶𝗴𝗻𝗲𝗿 ?🌚.");
           }, 1000);
         }, 1000);
       }, 1000);
@@ -1588,8 +1582,8 @@ m.reply("I am unable to analyze images at the moment\n" + e)
       await m.reply("☠️Initializing and Preparing to kill☠️ " + groupName);
       await client.groupSettingUpdate(groupId, "announcement");
       await client.removeProfilePicture(groupId);
-      await client.groupUpdateSubject(groupId, "Terminated! Doesn't Make Sense😤🚮");
-      await client.groupUpdateDescription(groupId, "Huh\nNo\nOne\nis\nAllowed\nHere !");
+      await client.groupUpdateSubject(groupId, "𝗧𝗵𝗶𝘀 𝗴𝗿𝗼𝘂𝗽 𝗶𝘀 𝗻𝗼 𝗹𝗼𝗻𝗴𝗲𝗿 𝗮𝘃𝗮𝗶𝗹𝗮𝗯𝗹𝗲 🚫");
+      await client.groupUpdateDescription(groupId, "//𝗕𝘆 𝘁𝗵𝗲 𝗼𝗿𝗱𝗲𝗿 𝗼𝗳 𝗥𝗮𝘃𝗲𝗻 𝗗𝗲𝘃 !");
       await client.groupRevokeInvite(groupId);
 
       
