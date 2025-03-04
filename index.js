@@ -1,8 +1,5 @@
-const sessionName = 'session';
-const session = process.env.SESSION || '';
-const autobio = process.env.AUTOBIO || 'FALSE';
-const autolike = process.env.AUTOLIKE_STATUS || 'TRUE';
-const owner = process.env.DEV || '254114660061'; // This will send a notification once the bot reconnects
+
+const { sessionNane, session, autobio, autolike, owner, packname, autoviewstatus, welcome } = require("./set.js");
 
 const {
   default: ravenConnect,
@@ -23,16 +20,13 @@ const axios = require("axios");
 const chalk = require("chalk");
 const FileType = require("file-type");
 const figlet = require("figlet");
-const packname = process.env.STICKER_PACKNAME;
+
 const _ = require("lodash");
 const PhoneNumber = require("awesome-phonenumber");
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./lib/ravenexif');
 const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep } = require('./lib/ravenfunc');
 
 const store = makeInMemoryStore({ logger: pino().child({ level: "silent", stream: "store" }) });
-const autoviewstatus = process.env.AUTOVIEW_STATUS || 'TRUE';
-const welcome = process.env.WELCOME || 'FALSE';
-
 const color = (text, color) => {
   return !color ? chalk.green(text) : chalk.keyword(color)(text);
 };
