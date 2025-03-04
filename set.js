@@ -22,7 +22,7 @@ const packname = process.env.STICKER_PACKNAME || '𝗥𝗔𝗩𝗘𝗡';
 const dev = process.env.DEV || '254114660061';
 
 const menu = process.env.MENU_TYPE || 'VIDEO';
-const DevDreaded = dev.split(",");
+const DevRaven = dev.split(",");
 const badwordkick = process.env.BAD_WORD_KICK || 'FALSE';
 const bad = process.env.BAD_WORD || 'fuck';
 const autoread = process.env.AUTOREAD || 'FALSE';
@@ -42,7 +42,7 @@ module.exports = {
   author,
   packname,
   dev,
-  DevDreaded,
+  DevRaven,
   badwordkick,
   bad,
   group,
