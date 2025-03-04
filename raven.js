@@ -18,12 +18,12 @@ const ytdl = require("ytdl-core");
 const { fetchUrl, isUrl, processTime } = require("./lib/ravenfunc");
 const { TelegraPh, UploadFileUgu, webp2mp4File, floNime } = require('./lib/ravenupload');
 const { Configuration, OpenAI } = require("openai");
-const { menu, autoread, appname, herokuapi, gptdm, cmd, botname, antibot, prefix, author, packname, mycode, admin, botAdmin, dev, group, bad, DevDreaded, NotOwner, antilink, antilinkall, wapresence, badwordkick } = require("./set.js");
+const { menu, body, autoread, appname, herokuapi, gptdm, cmd, botname, antibot, prefix, author, packname, mycode, admin, botAdmin, dev, group, bad, DevDreaded, NotOwner, antilink, antilinkall, wapresence, badwordkick } = require("./set.js");
 const { smsg, formatp, tanggal, formatDate, getTime,  sleep, generateProfilePicture, clockString, fetchJson, getBuffer, jsonformat, format, parseMention, getRandom } = require('./lib/ravenfunc');
 const { exec, spawn, execSync } = require("child_process");
 module.exports = raven = async (client, m, chatUpdate, store) => {
   try {
-    const body =
+    var body =
       m.mtype === "conversation"
         ? m.message.conversation
         : m.mtype == "imageMessage"
@@ -41,8 +41,8 @@ module.exports = raven = async (client, m, chatUpdate, store) => {
         : m.mtype === "messageContextInfo"
         ? m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text
         : "";
-    const budy = typeof m.text == "string" ? m.text : "";
-	  const msgDreaded = m.message.extendedTextMessage?.contextInfo?.quotedMessage;  
+    var budy = typeof m.text == "string" ? m.text : "";
+	  var msgDreaded = m.message.extendedTextMessage?.contextInfo?.quotedMessage;  
    
 const Heroku = require("heroku-client");  
     const command = body.replace(prefix, "").trim().split(/ +/).shift().toLowerCase();
