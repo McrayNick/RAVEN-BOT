@@ -18,7 +18,7 @@ const ytdl = require("ytdl-core");
 const { fetchUrl, isUrl, processTime } = require("./lib/ravenfunc");
 const { TelegraPh, UploadFileUgu, webp2mp4File, floNime } = require('./lib/ravenupload');
 const { Configuration, OpenAI } = require("openai");
-let setting = process.env.AI;
+const { menu, autoread, appname, herokuapi, gptdm, cmd, botname, antibot, prefix, author, packname, mycode, admin, botAdmin, dev, group, bad, DevDreaded, NotOwner, antilink, antilinkall, wapresence, badwordkick } = require("./set.js");
 const { smsg, formatp, tanggal, formatDate, getTime,  sleep, generateProfilePicture, clockString, fetchJson, getBuffer, jsonformat, format, parseMention, getRandom } = require('./lib/ravenfunc');
 const { exec, spawn, execSync } = require("child_process");
 module.exports = raven = async (client, m, chatUpdate, store) => {
@@ -42,19 +42,9 @@ module.exports = raven = async (client, m, chatUpdate, store) => {
         ? m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text
         : "";
     var budy = typeof m.text == "string" ? m.text : "";
-	  var msgDreaded = m.message.extendedTextMessage?.contextInfo?.quotedMessage;
-	  
-   // leave the prefix string empty if you don't want the bot to use a prefix
-    const prefix = process.env.PREFIX || '';
+	  var msgDreaded = m.message.extendedTextMessage?.contextInfo?.quotedMessage;  
+   
 const Heroku = require("heroku-client");  
- const appname = process.env.APP_NAME || '';
- const herokuapi = process.env.HEROKU_API;
-const gptdm = process.env.GPT_INBOX || 'FALSE';
-    const cmd = body.startsWith(prefix);
-//const autobio = process.env.AUTOBIO || 'TRUE';
-const botname = process.env.BOTNAME || '𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧';
-const antibot = process.env.ANTIBOT || 'FALSE';
-  
     const command = body.replace(prefix, "").trim().split(/ +/).shift().toLowerCase();
     const args = body.trim().split(/ +/).slice(1);
     const pushname = m.pushName || "No Name";
@@ -77,22 +67,13 @@ const antibot = process.env.ANTIBOT || 'FALSE';
      };
     const fortu = (m.quoted || m); 
          const quoted = (fortu.mtype == 'buttonsMessage') ? fortu[Object.keys(fortu)[1]] : (fortu.mtype == 'templateMessage') ? fortu.hydratedTemplate[Object.keys(fortu.hydratedTemplate)[1]] : (fortu.mtype == 'product') ? fortu[Object.keys(fortu)[0]] : m.quoted ? m.quoted : m; 
- 
 
     const color = (text, color) => {
       return !color ? chalk.green(text) : chalk.keyword(color)(text);
     };
     const mime = (quoted.msg || quoted).mimetype || "";
             const qmsg = (quoted.msg || quoted);
-    const author = process.env.STICKER_AUTHOR ||'𝗕𝗢𝗧';
-    const packname = process.env.STICKER_PACKNAME || '𝗥𝗔𝗩𝗘𝗡';
-const dev = process.env.DEV || '254114660061';
-
-const menu = process.env.MENU_TYPE || 'VIDEO';
- const DevDreaded = dev.split(",");
-    const badwordkick = process.env.BAD_WORD_KICK || 'FALSE';
-   const bad = process.env.BAD_WORD || 'fuck';
-    const autoread = process.env.AUTOREAD || 'FALSE';
+    
     const badword = bad.split(",");
     const Owner = DevDreaded.map((v) => v.replace(/[^0-9]/g, "") + "@s.whatsapp.net").includes(m.sender)
     // Group
@@ -103,14 +84,6 @@ const groupName = m.isGroup && groupMetadata ? await groupMetadata.subject : "";
      const groupAdmin = m.isGroup ? await getGroupAdmins(participants) : ""; 
      const isBotAdmin = m.isGroup ? groupAdmin.includes(botNumber) : false; 
      const isAdmin = m.isGroup ? groupAdmin.includes(m.sender) : false;
-const admin = process.env.ADMIN_MSG || '𝗖𝗼𝗺𝗺𝗮𝗻𝗱 𝗿𝗲𝘀𝗲𝗿𝘃𝗲𝗱 𝗳𝗼𝗿 𝗔𝗱𝗺𝗶𝗻𝘀!';
-    const group = process.env.GROUP_ONLY_MSG || '𝗖𝗼𝗺𝗺𝗮𝗻𝗱 𝗺𝗲𝗮𝗻𝘁 𝗳𝗼𝗿 𝗚𝗿𝗼𝘂𝗽𝘀!';
-    const botAdmin = process.env.BOT_ADMIN_MSG || '𝗜 𝗻𝗲𝗲𝗱 𝗔𝗱𝗺𝗶𝗻 𝗽𝗿𝗲𝘃𝗶𝗹𝗲𝗱𝗴𝗲𝘀!'
-    const NotOwner = process.env.NOT_OWNER_MSG || '𝗖𝗼𝗺𝗺𝗮𝗻𝗱 𝗺𝗲𝗮𝗻𝘁 𝗳𝗼𝗿 𝘁𝗵𝗲 𝗼𝘄𝗻𝗲𝗿!';
-const wapresence = process.env.WA_PRESENCE || 'recording';
-const antilink = process.env.ANTILINK || 'TRUE';
-const mycode = process.env.CODE || '254';
-const antilinkall = process.env.ANTILINK_ALL || 'TRUE';
  
 const runtime = function (seconds) { 
  seconds = Number(seconds); 
@@ -148,12 +121,6 @@ if (wapresence === 'recording' && !m.isGroup) {
              client.readMessages([m.key])
     }
       if (itsMe && mek.key.id.startsWith("BAE5") && mek.key.id.length === 16 && !m.isGroup) return;
-
-
-
-  
-  
- 
 
          
 function _0x4f1b(_0x44e88, _0x1e223f) {
