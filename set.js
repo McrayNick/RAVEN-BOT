@@ -48,6 +48,7 @@ module.exports = {
   group,
   NotOwner,
   botname,
+  botAdmin,
   menu,
   autoread,
   antilink,
