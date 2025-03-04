@@ -1,6 +1,5 @@
 
 const { sessionName, session, autobio, autolike, owner, packname, autoviewstatus, welcome } = require("./set.js");
-
 const {
   default: ravenConnect,
   useMultiFileAuthState,
@@ -35,7 +34,6 @@ async function authenticationn() {
   try {
     const credsPath = "./session/creds.json";
     
-
     // Check if session file exists
     if (!fs.existsSync(credsPath)) {
       console.log("Connecting...");
@@ -52,7 +50,8 @@ async function authenticationn() {
 }
 
 async function startRaven() {
-  await authenticationn();
+                 await authenticationn();
+  
   const { state, saveCreds } = await useMultiFileAuthState("session");
   const { version, isLatest } = await fetchLatestBaileysVersion();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
