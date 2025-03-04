@@ -1,5 +1,5 @@
 
-const { sessionNane, session, autobio, autolike, owner, packname, autoviewstatus, welcome } = require("./set.js");
+const { sessionName, session, autobio, autolike, owner, packname, autoviewstatus, welcome } = require("./set.js");
 
 const {
   default: ravenConnect,
