@@ -611,7 +611,7 @@ break;
 	break;
 		      case "credits": 
   
-              client.sendMessage(m.chat, { image: { url: 'https://i.imgur.com/Jp8zoUC.jpeg' }, caption: `We express sincere gratitude and acknowledgement to the following:\n\n -Dika Ardnt ➪ Indonesia\n - Writing the base code using case method\nhttps://github.com/DikaArdnt\n\n -Adiwajshing ➪ India\n - Writing and Coding the bot's library (baileys)\nhttps://github.com/WhiskeySockets/Baileys\n\n -WAWebSockets Discord Server community\n-Maintaining and reverse engineering the Web Sockets\nhttps://discord.gg/WeJM5FP9GG\n\n - Nick Hunter ➪ Kenya\n - Actively compiling and debugging parts of this bot script\nhttps://github.com/HunterNick2\n\n - Fortunatus Mokaya ➪ Kenya\n - Founder of the bot Base\nhttps://github.com/Fortunatusmokaya\n\n𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧`}); 
+              client.sendMessage(m.chat, { image: { url: 'https://i.imgur.com/Jp8zoUC.jpeg' }, caption: `We express sincere gratitude and acknowledgement to the following:\n\n -Dika Ardnt ➪ Indonesia\n - Writing the base code using case method\nhttps://github.com/DikaArdnt\n\n -Adiwajshing ➪ India\n - Writing and Coding the bot's library (baileys)\nhttps://github.com/WhiskeySockets/Baileys\n\n -WAWebSockets Discord Server community\n-Maintaining and reverse engineering the Web Sockets\nhttps://discord.gg/WeJM5FP9GG\n\n - Nick Hunter ➪ Kenya\n - Actively compiling and debugging parts of this bot script\nhttps://github.com/HunterNick2\n\n - Keithkeizzah (Ghost) ➪ Kenya\n - Compiling and debugging parts of this bot script\nhttps://github.com/Keithkeizzah - Fortunatus Mokaya ➪ Kenya\n - Founder of the bot Base\nhttps://github.com/Fortunatusmokaya\n\n𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧`}); 
  break;
 	  case 'poll': {
 		  let [poll, opt] = text.split("|")
@@ -2947,7 +2947,7 @@ const title = data.result.title;
  case 'sc': case 'script': case 'repo':
 
  client.sendMessage(m.chat, { image: { url: `https://telegra.ph/file/416c3ae0cfe59be8db011.jpg` }, caption: 
-` Hello👋 *${pushname}*,You can deploy 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧 using the GitHub link below 🎭\n\nFork and give us a star✨.\n\n https://github.com/HunterNick2/RAVEN-BOT/fork\n\nLink with your whatsapp using pairing link below\nPair onrender👇\nhttps://pairing-raven.onrender.com\n\nPair on replit👇\nhttps://replit.com/@dicksonnicky50/Pairing-Raven\n\nAfter uploading the document connect your repo with this link and deploy\nhttps://dashboard.heroku.com/new-app?template=\n\nEnjoy and have fun with 𝗥𝗔𝗩𝗘𝗡 𝗕𝗢𝗧 🦄!\n\n𝗠𝗮𝗱𝗲 𝗼𝗻 𝗲𝗮𝗿𝘁𝗵 𝗯𝘆 𝗛𝘂𝗺𝗮𝗻𝘀!`},{quoted : m });
+` Hello👋 *${pushname}*,You can deploy 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧 using the GitHub link below 🎭\n\nFork and give us a star✨.\n\n https://github.com/HunterNick2/RAVEN-BOT\n\nLink with your whatsapp using pairing link below\n\nhttps://pairing-raven.onrender.com\n\nCopy the session id and Fill in the required Variables before Deloy\n\nEnjoy and have fun with 𝗥𝗔𝗩𝗘𝗡 𝗕𝗢𝗧 🦄!\n\n𝗠𝗮𝗱𝗲 𝗼𝗻 𝗲𝗮𝗿𝘁𝗵 𝗯𝘆 𝗛𝘂𝗺𝗮𝗻𝘀!`},{quoted : m });
 
    break;
                                                   
