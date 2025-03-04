@@ -23,7 +23,7 @@ const { smsg, formatp, tanggal, formatDate, getTime,  sleep, generateProfilePict
 const { exec, spawn, execSync } = require("child_process");
 module.exports = raven = async (client, m, chatUpdate, store) => {
   try {
-    var body =
+    const body =
       m.mtype === "conversation"
         ? m.message.conversation
         : m.mtype == "imageMessage"
@@ -41,8 +41,8 @@ module.exports = raven = async (client, m, chatUpdate, store) => {
         : m.mtype === "messageContextInfo"
         ? m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text
         : "";
-    var budy = typeof m.text == "string" ? m.text : "";
-	  var msgDreaded = m.message.extendedTextMessage?.contextInfo?.quotedMessage;  
+    const budy = typeof m.text == "string" ? m.text : "";
+	  const msgDreaded = m.message.extendedTextMessage?.contextInfo?.quotedMessage;  
    
 const Heroku = require("heroku-client");  
     const command = body.replace(prefix, "").trim().split(/ +/).shift().toLowerCase();
