@@ -11,10 +11,9 @@ const { DateTime } = require('luxon');
 const uploadtoimgur = require('./lib/imgur');
 const advice = require("badadvice");
 const {c, cpp, node, python, java} = require('compile-run');
-const acrcloud = require("acrcloud");
- 
+const acrcloud = require("acrcloud"); 
 const ytdl = require("ytdl-core");
- const Client = new Genius.Client("jKTbbU-6X2B9yWWl-KOm7Mh3_Z6hQsgE4mmvwV3P3Qe7oNa9-hsrLxQV5l5FiAZO"); // Scrapes if no key is provided
+const Client = new Genius.Client("jKTbbU-6X2B9yWWl-KOm7Mh3_Z6hQsgE4mmvwV3P3Qe7oNa9-hsrLxQV5l5FiAZO"); // Scrapes if no key is provided
 const { TelegraPh, UploadFileUgu, webp2mp4File, floNime } = require('./lib/ravenupload');
 const { Configuration, OpenAI } = require("openai");
 const { menu, autoread, mode, appname, herokuapi, gptdm, botname, antibot, prefix, author, packname, mycode, admin, botAdmin, dev, group, bad, DevRaven, NotOwner, antilink, antilinkall, wapresence, badwordkick } = require("./set.js");
@@ -43,7 +42,7 @@ module.exports = raven = async (client, m, chatUpdate, store) => {
     var budy = typeof m.text == "string" ? m.text : "";
 	  var msgDreaded = m.message.extendedTextMessage?.contextInfo?.quotedMessage;  
    
-const Heroku = require("heroku-client");  
+    const Heroku = require("heroku-client");  
     const command = body.replace(prefix, "").trim().split(/ +/).shift().toLowerCase();
     const args = body.trim().split(/ +/).slice(1);
     const pushname = m.pushName || "No Name";
@@ -65,7 +64,7 @@ const Heroku = require("heroku-client");
        return admins || []; 
      };
     const fortu = (m.quoted || m); 
-         const quoted = (fortu.mtype == 'buttonsMessage') ? fortu[Object.keys(fortu)[1]] : (fortu.mtype == 'templateMessage') ? fortu.hydratedTemplate[Object.keys(fortu.hydratedTemplate)[1]] : (fortu.mtype == 'product') ? fortu[Object.keys(fortu)[0]] : m.quoted ? m.quoted : m; 
+    const quoted = (fortu.mtype == 'buttonsMessage') ? fortu[Object.keys(fortu)[1]] : (fortu.mtype == 'templateMessage') ? fortu.hydratedTemplate[Object.keys(fortu.hydratedTemplate)[1]] : (fortu.mtype == 'product') ? fortu[Object.keys(fortu)[0]] : m.quoted ? m.quoted : m; 
 
     const color = (text, color) => {
       return !color ? chalk.green(text) : chalk.keyword(color)(text);
@@ -73,7 +72,7 @@ const Heroku = require("heroku-client");
     const mime = (quoted.msg || quoted).mimetype || "";
             const qmsg = (quoted.msg || quoted);
 
-	const cmd = body.startsWith(prefix);
+    const cmd = body.startsWith(prefix);
     const badword = bad.split(",");
     const Owner = DevRaven.map((v) => v.replace(/[^0-9]/g, "") + "@s.whatsapp.net").includes(m.sender)
     // Group
@@ -86,7 +85,7 @@ const groupName = m.isGroup && groupMetadata ? await groupMetadata.subject : "";
      const isAdmin = m.isGroup ? groupAdmin.includes(m.sender) : false;
  
  const maindev = dev;
-const maindev2 = maindev.split(",");
+ const maindev2 = maindev.split(",");
  const date = new Date()  
  const timestamp = speed(); 
  const dreadedspeed = speed() - timestamp 
@@ -561,7 +560,7 @@ console.log(advice());
 break;
 
 case "owner":
-	  const { client.sendContact } = require("./lib/owner");
+	  const { sendContact } = require("./lib/owner");
 client.sendContact(from, maindev2, m)
 break;
 	      case "update": case "redeploy": {
