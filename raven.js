@@ -85,7 +85,7 @@ const groupName = m.isGroup && groupMetadata ? await groupMetadata.subject : "";
      const isBotAdmin = m.isGroup ? groupAdmin.includes(botNumber) : false; 
      const isAdmin = m.isGroup ? groupAdmin.includes(m.sender) : false;
  
- const maindev = '254114018035';
+ const maindev = dev;
 const maindev2 = maindev.split(",");
  const date = new Date()  
  const timestamp = speed(); 
