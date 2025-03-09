@@ -12,7 +12,7 @@ const uploadtoimgur = require('./lib/imgur');
 const advice = require("badadvice");
 const {c, cpp, node, python, java} = require('compile-run');
 const acrcloud = require("acrcloud");
- client.sendContact = ("./lib/owner");
+ 
 const ytdl = require("ytdl-core");
  const Client = new Genius.Client("jKTbbU-6X2B9yWWl-KOm7Mh3_Z6hQsgE4mmvwV3P3Qe7oNa9-hsrLxQV5l5FiAZO"); // Scrapes if no key is provided
 const { TelegraPh, UploadFileUgu, webp2mp4File, floNime } = require('./lib/ravenupload');
@@ -561,6 +561,7 @@ console.log(advice());
 break;
 
 case "owner":
+	  const { client.sendContact } = require("./lib/owner");
 client.sendContact(from, maindev2, m)
 break;
 	      case "update": case "redeploy": {
