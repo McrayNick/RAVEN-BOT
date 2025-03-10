@@ -75,6 +75,7 @@ module.exports = raven = async (client, m, chatUpdate, store) => {
     const cmd = body.startsWith(prefix);
     const badword = bad.split(",");
     const Owner = DevRaven.map((v) => v.replace(/[^0-9]/g, "") + "@s.whatsapp.net").includes(m.sender)
+    const context = { client, m };
     // Group
    
    const groupMetadata = m.isGroup ? await client.groupMetadata(m.chat).catch((e) => {}) : "";
