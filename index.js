@@ -83,9 +83,11 @@ async function startRaven() {
             
       if (autolike === 'TRUE' && mek.key && mek.key.remoteJid === "status@broadcast") {
         const nickk = await client.decodeJid(client.user.id);
+        if (!mek.status) {
         await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '🎭' } }, { statusJidList: [mek.key.participant, nickk] });
       }
-
+    }
+            
       if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
 
       let m = smsg(client, mek, store);
