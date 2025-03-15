@@ -13,7 +13,7 @@ const advice = require("badadvice");
 const {c, cpp, node, python, java} = require('compile-run');
 const acrcloud = require("acrcloud"); 
 const ytdl = require("ytdl-core");
-const Client = new Genius.Client("jKTbbU-6X2B9yWWl-KOm7Mh3_Z6hQsgE4mmvwV3P3Qe7oNa9-hsrLxQV5l5FiAZO"); // Scrapes if no key is provided
+const Client = new Genius.Client("TUoAEhL79JJyU-MpOsBDkFhJFWFH28nv6dgVgPA-9R1YRwLNP_zicdX2omG2qKE8gYLJat5F5VSBNLfdnlpfJg"); // Scrapes if no key is provided
 const { TelegraPh, UploadFileUgu, webp2mp4File, floNime } = require('./lib/ravenupload');
 const { Configuration, OpenAI } = require("openai");
 const { menu, autoread, mode, appname, herokuapi, gptdm, botname, antibot, prefix, author, packname, mycode, admin, botAdmin, dev, group, bad, DevRaven, NotOwner, antilink, antilinkall, wapresence, badwordkick } = require("./set.js");
@@ -498,6 +498,23 @@ case "owner":
 client.sendContact(from, maindev2, m)
 break;
 
+		      case "lyrics2": 
+ try { 
+ if (!text) return reply("Provide a song name!"); 
+ const searches = await Client.songs.search(text); 
+ const firstSong = searches[0]; 
+ //await client.sendMessage(from, {text: firstSong}); 
+ const lyrics = await firstSong.lyrics(); 
+ await client.sendMessage(from, { text: lyrics}, { quoted: m }); 
+ } catch (error) { 
+             reply(`I did not find any lyrics for ${text}. Try searching a different song.`); 
+             console.log(error); 
+         } 
+ //const artist = await Client.artists.get(456537); 
+ //await client.sendMessage(from, { text: artist} {quoted: m}); 
+ // console.log("About the Artist:\n", artist, "\n"); 
+ break;
+        
 	case "music": {
  const yts = require("yt-search");
 
