@@ -224,18 +224,20 @@ let { key } = await client.sendMessage(m.chat, {audio: fs.readFileSync('./Media/
 }
  
     if (gptdm === 'TRUE' && m.chat.endsWith("@s.whatsapp.net")) {
+	    
+try {
+  const { default: Gemini } = await import('gemini-ai');
 
-  let d = await fetchJson(
-            `https://bk9.fun/ai/llama?q=${text}`
-          );
-          if (!d.BK9) {
-            return reply(
-              "An error occurred while fetching the AI chatbot response. Please try again later."
-            );
-          } else {
-            reply(d.BK9);
-          }
+        const gemini = new Gemini("AIzaSyDJUtskTG-MvQdlT4tNE319zBqLMFei8nQ");
+        const chat = gemini.createChat();
+
+        const res = await chat.ask(text);
+
+        await m.reply(res);
+    } catch (e) {
+        m.reply("I am unable to generate responses\n\n" + e);
     }
+}
 
 if (antitag === 'TRUE' && !Owner && isBotAdmin && !isAdmin && m.mentionedJid && m.mentionedJid.length > 10) {
         if (itsMe) return;
