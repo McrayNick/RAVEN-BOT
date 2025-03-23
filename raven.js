@@ -1700,11 +1700,12 @@ m.reply("*Wait a moment...*");
     }
   }
 	break;
+		      
 	      case 'dalle': case 'createimage': {
   if (!text) return m.reply(`*This command generates images from text prompts*\n\n*𝙴xample usage*\n*${prefix + command} Beautiful anime girl*\n*${prefix + command} girl in pink dress*`);
   try {
   	m.reply('Please wait, i am generating your image...')
-    const endpoint = `https://cute-tan-gorilla-yoke.cyclic.app/imagine?text=${encodeURIComponent(text)}`
+    const endpoint = `https://www.arch2devs.ct.ws/api/fluxaws?query=${encodeURIComponent(text)}`
     const response = await fetch(endpoint)
     if (response.ok) {
       const imageBuffer = await response.buffer()
@@ -1717,6 +1718,7 @@ m.reply("*Wait a moment...*");
   }
 		      }
 		 break;
+		      
 		      case "ai": {
 			      const {
     GoogleGenerativeAI: _0x817910
@@ -3839,7 +3841,7 @@ if (!text) return m.reply("No emojis provided ? ")
     } catch (e) {
         m.reply("I am unable to generate responses\n\n" + e);
     }
-}
+ }
  break;
       
         case "setvar": 
