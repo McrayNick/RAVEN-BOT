@@ -79,7 +79,9 @@ module.exports = raven = async (client, m, chatUpdate, store) => {
     const cmd = body.startsWith(prefix);
     const badword = bad.split(",");
     const Owner = DevRaven.map((v) => v.replace(/[^0-9]/g, "") + "@s.whatsapp.net").includes(m.sender)
-    
+    let lastTextTime = 0;
+    const messageDelay = 5000;
+    const currentTime = Date.now();
 //========================================================================================================================//		      
 //========================================================================================================================//	      
      const groupMetadata = m.isGroup ? await client.groupMetadata(m.chat).catch((e) => {}) : "";
@@ -230,6 +232,12 @@ let { key } = await client.sendMessage(m.chat, {audio: fs.readFileSync('./Media/
     if (gptdm === 'TRUE' && m.chat.endsWith("@s.whatsapp.net")) {
 	    
 try {
+	const currentTime = Date.now();
+          if (currentTime - lastTextTime < messageDelay) {
+            console.log('Message skipped: Too many messages in a short time.');
+            return;
+	  }
+	
   const { default: Gemini } = await import('gemini-ai');
 
         const gemini = new Gemini("AIzaSyDJUtskTG-MvQdlT4tNE319zBqLMFei8nQ");
@@ -238,6 +246,9 @@ try {
         const res = await chat.ask(text);
 
         await m.reply(res);
+	
+	lastTextTime = Date.now();
+	
     } catch (e) {
         m.reply("I am unable to generate responses\n\n" + e);
     }
