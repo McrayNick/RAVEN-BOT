@@ -231,28 +231,27 @@ let { key } = await client.sendMessage(m.chat, {audio: fs.readFileSync('./Media/
 //========================================================================================================================// 
     if (gptdm === 'TRUE' && m.chat.endsWith("@s.whatsapp.net")) {
 	    
-try {
-	const currentTime = Date.now();
+        try {
+          const currentTime = Date.now();
           if (currentTime - lastTextTime < messageDelay) {
             console.log('Message skipped: Too many messages in a short time.');
             return;
-	  }
-	
-  const { default: Gemini } = await import('gemini-ai');
+          }
 
-        const gemini = new Gemini("AIzaSyDJUtskTG-MvQdlT4tNE319zBqLMFei8nQ");
-        const chat = gemini.createChat();
+          const response = await axios.get('https://keith-api.vercel.app/ai/gpt', { params: { q: text }});
 
-        const res = await chat.ask(text);
+          const ress = response.data;
 
-        await m.reply(res);
-	
-	lastTextTime = Date.now();
-	
-    } catch (e) {
-        m.reply("I am unable to generate responses\n\n" + e);
-    }
-}
+          if (ress && ress.status && ress.result) {
+            await client.sendMessage(m.chat, { text: ress.result });
+            lastTextTime = Date.now();
+          } else {
+            throw new Error('No response content found.');
+          }
+        } catch (error) {
+          console.error('Error fetching chatbot response:', error);
+        }
+	}
 //========================================================================================================================//
 if (antitag === 'TRUE' && !Owner && isBotAdmin && !isAdmin && m.mentionedJid && m.mentionedJid.length > 10) {
         if (itsMe) return;
