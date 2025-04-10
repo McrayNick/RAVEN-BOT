@@ -933,7 +933,52 @@ const path = require("path");
 }
 	  break;
 
-		      
+	      case "music":
+		   if (!text) {
+      return m.reply("*Please provide a song name or keywords to search for.*");
+    }
+
+    const searchQuery = text;
+    m.reply("*Please wait processing your request...*");
+
+    try {
+      const searchResults = await yts(searchQuery);
+      if (!searchResults.videos || searchResults.videos.length === 0) {
+        return m.reply(`❌ No results found for "${searchQuery}".`);
+      }
+
+      const firstResult = searchResults.videos[0];
+      const videoUrl = firstResult.url;
+
+      // Fetch video using API
+      const apiUrl = `https://apis.davidcyriltech.my.id/download/ytmp4?url=${videoUrl}`;
+      const response = await axios.get(apiUrl);
+
+      if (!response.data.success) {
+        return m.reply(`❌ Failed to fetch video for "${searchQuery}".`);
+      }
+
+      const { title, download_url } = response.data.result;
+
+      // Send the video file
+      await client.sendMessage(
+        m.from,
+        {
+          audio: { url: download_url },
+          mimetype: "audio/mp4",
+          caption: "TESTING API",
+        },
+        { quoted: m }
+      );
+
+    } catch (error) {
+      console.error(error);
+      m.reply("❌ An error occurred while processing your request.");
+    }
+};
+break;
+
+	  
 	      case "fake":
 		      	     // Check if the script is being executed in a group chat
 if (!m.isGroup) {
@@ -966,7 +1011,8 @@ if (!args || !args[0]) {
     await client.groupParticipantsUpdate(m.chat, fakeAccounts, "remove");
     await m.reply(`${fakeAccounts.length} fake accounts were successfully removed!`);
 }
-        
+ break;
+	  
 //========================================================================================================================//		      
 	      case "inspect": {
 		      const fetch = require('node-fetch');
