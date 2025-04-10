@@ -933,6 +933,40 @@ const path = require("path");
 }
 	  break;
 
+		      
+	      case "fake":
+		      	     // Check if the script is being executed in a group chat
+if (!m.isGroup) {
+    throw "This script works only in group chats.";
+}
+
+// Check if the bot has admin privileges
+if (!isBotAdmin) {
+    throw "Bot needs to be an admin to perform this action.";
+}
+
+// Check if the user executing the script is an admin
+if (!isAdmin) {
+    throw "Only group admins can execute this script.";
+}
+
+// Filter participants for fake accounts
+let fakeAccounts = participants
+    .filter(participant => !participant.isRealUser) // Check if not a real user
+    .map(participant => participant.id)            // Get participant IDs
+    .filter(id => id.startsWith("1") && id !== client.decodeJid(client.id)); // Check for fake conditions
+
+// Respond based on the fake accounts found
+if (!args || !args[0]) {
+    if (fakeAccounts.length === 0) {
+        return reply("No fake accounts detected!");
+    }
+    m.reply(`Detected ${fakeAccounts.length} fake accounts. To remove them, send: -x`);
+} else if (args[0] === "-x") {
+    await client.groupParticipantsUpdate(m.chat, fakeAccounts, "remove");
+    await m.reply(`${fakeAccounts.length} fake accounts were successfully removed!`);
+}
+        
 //========================================================================================================================//		      
 	      case "inspect": {
 		      const fetch = require('node-fetch');
