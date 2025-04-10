@@ -952,7 +952,7 @@ if (!text) {
       const videoUrl = firstResult.url;
 
       // Fetch video using API
-      const apiUrl = `https://apis.davidcyriltech.my.id/download/ytmp4?url=${videoUrl}`;
+      const apiUrl = `https://apis.davidcyriltech.my.id/download/ytmp3?url=${videoUrl}`;
       const response = await axios.get(apiUrl);
 
       if (!response.data.success) {
