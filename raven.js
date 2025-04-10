@@ -934,7 +934,8 @@ const path = require("path");
 	  break;
 
 	      case "music":
-		   if (!text) {
+		      {
+if (!text) {
       return m.reply("*Please provide a song name or keywords to search for.*");
     }
 
@@ -962,7 +963,7 @@ const path = require("path");
 
       // Send the video file
       await client.sendMessage(
-        m.from,
+        m.chat,
         {
           audio: { url: download_url },
           mimetype: "audio/mp4",
