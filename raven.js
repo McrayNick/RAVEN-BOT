@@ -662,7 +662,7 @@ break;
         const urlYt = videos[0].url;
 
         try {
-            let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${urlYt}`);
+            let data = await fetchJson(`https://xploader-apis-5f424ea8f0da.herokuapp.com/ytmp3?url=${urlYt}`);
 
             const { title, format, url: audioUrl } = data.result;
 
@@ -731,7 +731,7 @@ await client.sendMessage(
       return reply("Unable to fetch the song. Please try again later.");
     }
   } catch (error) {
-    
+     
     return reply(`An error occurred: `);
   }
 }
@@ -873,8 +873,8 @@ const path = require("path");
     let link = search.all[0].url;
 
     const apis = [
-      `https://xploader-api.vercel.app/ytmp3?url=${link}`,
-      `https://apis.davidcyriltech.my.id/youtube/mp3?url=${link}`,
+      `https://xploader-apis-5f424ea8f0da.herokuapp.com/ytmp3?url=${link}`,
+      `https://apis.davidcyriltech.my.id/download/ytmp3?url=${link}`,
       `https://api.ryzendesu.vip/api/downloader/ytmp3?url=${link}`,
       `https://api.dreaded.site/api/ytdl/audio?url=${link}`
        ];
