@@ -69,7 +69,7 @@ async function startRaven() {
       client.updateProfileStatus(
         `📅 DATE 📅  ${date.toLocaleDateString('hi')}      ⌚️ TIME ⌚️ ${date.toLocaleTimeString()}     📍 DAY 📍  ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi'})}.\n\n𝐑𝐚𝐯𝐞𝐧 𝐢𝐬 𝐂𝐮𝐫𝐫𝐞𝐧𝐭𝐥𝐲 𝐀𝐜𝐭𝐢𝐯𝐞 𝐚𝐧𝐝 𝐑𝐮𝐧𝐧𝐢𝐧𝐠☂.`
       );
-    }, 10 * 1000);
+    }, 10 * 6000);
   }
 
   store.bind(client.ev);
