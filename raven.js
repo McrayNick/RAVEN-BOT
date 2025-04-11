@@ -634,7 +634,7 @@ client.sendContact(from, maindev2, m)
 break;
 
 	      case "vision2":
-		      {	if (!quotedMessage?.imageMessage || !text) {
+		      {	if (!quoted?.imageMessage || !text) {
     return reply("Please quote an image and provide a question/text for analysis.\nExample: /vision What's in this image?");
   }
 
