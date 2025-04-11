@@ -8,6 +8,7 @@ const chalk = require("chalk");
 const speed = require("performance-now");
 const Genius = require("genius-lyrics");
 const yts = require("yt-search");
+const { analyzeImage, uploadToCatbox } = require('.lib/catbox.js');
 const { DateTime } = require('luxon');
 const uploadtoimgur = require('./lib/imgur');
 const advice = require("badadvice");
@@ -632,6 +633,28 @@ case "owner":
 client.sendContact(from, maindev2, m)
 break;
 
+	      case "vision2":
+		      {	if (!quotedMessage?.imageMessage || !text) {
+    return reply("Please quote an image and provide a question/text for analysis.\nExample: /vision What's in this image?");
+  }
+
+  try {
+    
+    const filePath = await client.downloadAndSaveMediaMessage(quotedMessage.imageMessage);
+    const imageUrl = await uploadToCatbox(filePath);
+    
+    await fs.unlink(filePath).catch(() => {});
+ 
+    const analysis = await analyzeImage(imageUrl, text);
+    
+    await reply(`🔍 Vision Analysis:\n\n${analysis}\n\n🖼️ Image URL: ${imageUrl}`);
+  } catch (error) {
+    console.error("Vision command error:", error);
+    await reply(`Error: ${error.message}`);
+  }
+};
+ break;
+	    
 //========================================================================================================================//
 		      case "lyrics2": 
  try { 
