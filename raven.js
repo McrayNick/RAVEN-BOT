@@ -634,13 +634,12 @@ client.sendContact(from, maindev2, m)
 break;
 
 	      case "vision2":
-		      {	if (!quoted?.imageMessage || !text) {
+		      {	if (!msgR?.imageMessage || !text) {
     return reply("Please quote an image and provide a question/text for analysis.\nExample: /vision What's in this image?");
   }
 
   try {
-    
-    const filePath = await client.downloadAndSaveMediaMessage(quotedMessage.imageMessage);
+    const filePath = await client.downloadAndSaveMediaMessage(msgR.imageMessage);
     const imageUrl = await uploadToCatbox(filePath);
     
     await fs.unlink(filePath).catch(() => {});
