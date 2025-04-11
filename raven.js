@@ -2500,7 +2500,7 @@ const url = googleTTS.getAudioUrl(text, {
            {
         if (!text) return reply(`Hello there, what's your question?`);
           let d = await fetchJson(
-            `https://bk9.fun/ai/jeeves-chat2?q=${text}`
+            `https://bk9.fun/ai/deepseek-r1?q=${text}`
           );
           if (!d.BK9) {
             return reply(
