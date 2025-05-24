@@ -37,14 +37,13 @@ const color = (text, color) => {
   return !color ? chalk.green(text) : chalk.keyword(color)(text);
 };
 
-const { getSettings, updateSetting } = require('../database/settings');
-
-async function startRaven() {
-let settingss = await getSettings();
+const { getSettings } = require('../database/settings');
+let settingss = getSettings();
         if (!settingss) return;
 
 const { autobio, anticall } = settingss;
-  
+
+async function startRaven() {
   await authenticationn();  
   const { state, saveCreds } = await useMultiFileAuthState("session");
   const { version, isLatest } = await fetchLatestBaileysVersion();
