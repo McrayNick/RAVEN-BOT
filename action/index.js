@@ -31,11 +31,17 @@ const authenticationn = require('../action/auth');
 const PhoneNumber = require("awesome-phonenumber");
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('../lib/ravenexif');
 const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep } = require('../lib/ravenfunc');
-const { sessionName, session, autobio, autolike, port, mycode, anticall, mode, prefix, antiforeign, packname, autoviewstatus } = require("../set.js");
+const { sessionName, session, autolike, port, mycode, mode, prefix, antiforeign, packname, autoviewstatus } = require("../set.js");
 const store = makeInMemoryStore({ logger: pino().child({ level: "silent", stream: "store" }) });
 const color = (text, color) => {
   return !color ? chalk.green(text) : chalk.keyword(color)(text);
 };
+
+const { getSettings, updateSettings } = require('../database/settings');
+let settingss = await getSettings();
+        if (!settingss) return;
+
+const { autobio, anticall } = settingss;
 
 async function startRaven() {
   await authenticationn();  
@@ -62,7 +68,7 @@ async function startRaven() {
     syncFullHistory: true,
   });
 
-  if (autobio === 'TRUE') {
+  if (autobio){
     setInterval(() => {
       const date = new Date();
       client.updateProfileStatus(
@@ -150,7 +156,7 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
     });
 
  client.ev.on('call', async (callData) => {
-    if (anticall === 'TRUE') {
+    if (anticall) {
       const callId = callData[0].id;
       const callerId = callData[0].from;
       
