@@ -772,6 +772,32 @@ case "owner":
 client.sendContact(m.chat, Dev, m)
 break;
 
+	      case "autobio": {
+	const { getSettings, updateSetting } = require('../database/settings');
+        const value = args[0]?.toLowerCase();
+
+        const settings = await getSettings();
+        const prefix = settings.prefix;
+
+        const isEnabled = settings.autobio === true;
+
+        if (value === 'on') {
+            if (isEnabled) {
+                return await m.reply('✅ Autobio is already ON.');
+            }
+            await updateSetting('autobio', 'TRUE');
+            await m.reply('✅ Autobio has been turned ON. The bot will auto-update its about section every 10 seconds.');
+        } else if (value === 'off') {
+            if (!isEnabled) {
+                return await m.reply('✅ Autobio is already OFF.');
+            }
+            await updateSetting('autobio', 'FALSE');
+            await m.reply('❌ Autobio has been turned OFF.');
+        } else {
+            await m.reply(`📄 Current autobio setting: ${isEnabled ? 'ON' : 'OFF'}\n\nUse _${prefix}autobio on_ or _${prefix}autobio off_ to change it.`);
+        }
+}
+break;
 //========================================================================================================================//
 		      
   case "getcase": {
