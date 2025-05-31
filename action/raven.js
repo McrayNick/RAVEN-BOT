@@ -29,15 +29,11 @@ const { Configuration, OpenAI } = require("openai");
 const { menu, menulink, autoread, mode, antidel, antitag, appname, herokuapi, gptdm, botname, antibot, prefix, author, packname, mycode, admin, botAdmin, dev, group, bad, owner, NotOwner, antilink, antilinkall, wapresence, badwordkick } = require("../set.js");
 const { smsg, runtime, fetchUrl, isUrl, processTime, formatp, tanggal, formatDate, getTime,  sleep, generateProfilePicture, clockString, fetchJson, getBuffer, jsonformat, format, parseMention, getRandom } = require('../lib/ravenfunc');
 const { exec, spawn, execSync } = require("child_process");
-module.exports = raven = async (client, m, chatUpdate, store) => {
+module.exports = raven = async (client, m, chatUpdate) => {
   try {
     var body =
       m.mtype === "conversation"
-        ? m.message.conversation
-        : m.mtype == "imageMessage"
-       ? m.message.imageMessage.caption
-        : m.mtype == "videoMessage"
-        ? m.message.videoMessage.caption
+        ? m.message.conversation 
         : m.mtype == "extendedTextMessage"
         ? m.message.extendedTextMessage.text
         : m.mtype == "buttonsResponseMessage"
