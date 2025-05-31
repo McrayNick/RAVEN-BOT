@@ -4,7 +4,6 @@ const {
   useMultiFileAuthState,
   DisconnectReason,
   fetchLatestBaileysVersion,
-  makeInMemoryStore,
   downloadContentFromMessage,
   jidDecode,
   proto,
@@ -32,7 +31,7 @@ const PhoneNumber = require("awesome-phonenumber");
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('../lib/ravenexif');
 const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep } = require('../lib/ravenfunc');
 const { sessionName, session, autobio, autolike, port, mycode, anticall, mode, prefix, antiforeign, packname, autoviewstatus } = require("../set.js");
-const store = makeInMemoryStore({ logger: pino().child({ level: "silent", stream: "store" }) });
+//const store = makeInMemoryStore({ logger: pino().child({ level: "silent", stream: "store" }) });
 const color = (text, color) => {
   return !color ? chalk.green(text) : chalk.keyword(color)(text);
 };
@@ -71,7 +70,7 @@ async function startRaven() {
     }, 10 * 1000);
   }
 
-  store.bind(client.ev);
+//  store.bind(client.ev);
   
   client.ev.on("messages.upsert", async (chatUpdate) => {
     try {
@@ -93,9 +92,9 @@ async function startRaven() {
           }
             
 if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
-      let m = smsg(client, mek, store);
+      let m = smsg(client, mek);
       const raven = require("../action/raven");
-      raven(client, m, chatUpdate, store);
+      raven(client, m, chatUpdate);
     } catch (err) {
       console.log(err);
     }
