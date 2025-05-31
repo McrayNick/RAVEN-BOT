@@ -121,14 +121,14 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       return (decode.user && decode.server && decode.user + "@" + decode.server) || jid;
     } else return jid;
   };
-
+   /*
   client.ev.on("contacts.update", (update) => {
     for (let contact of update) {
       let id = client.decodeJid(contact.id);
       if (store && store.contacts) store.contacts[id] = { id, name: contact.notify };
     }
   });
-
+   */
   client.ev.on("group-participants.update", async (update) => {
         if (antiforeign === 'TRUE' && update.action === "add") {
             for (let participant of update.participants) {
