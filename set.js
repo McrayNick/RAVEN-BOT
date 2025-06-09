@@ -38,4 +38,24 @@ const antiforeign = process.env.ANTIFOREIGN || 'TRUE';
 const port = process.env.PORT || 8080;
 const antilinkall = process.env.ANTILINK_ALL || 'TRUE';
 
-module.exports = { session, sessionName, autobio, author, packname, dev, owner, badwordkick, bad, mode, group, NotOwner, botname, botAdmin, antiforeign, menu, menulink, autoread, antilink, admin, mycode, antilinkall, anticall, antitag, antidel, wapresence, welcomegoodbye, antibot, herokuapi, prefix, port, gptdm, appname, autolike, autoviewstatus };  
+const { Sequelize } = require('sequelize');
+const DATABASE_URL = process.env.DATABASE_URL || './database.db';
+
+const database =
+  DATABASE_URL === './database.db'
+    ? new Sequelize({
+        dialect: 'sqlite',
+        storage: DATABASE_URL,
+        logging: false,
+      })
+    : new Sequelize(DATABASE_URL, {
+        dialect: 'postgres',
+        ssl: true,
+        protocol: 'postgres',
+        dialectOptions: {
+          ssl: { require: true, rejectUnauthorized: false },
+        },
+        logging: false,
+      });
+
+module.exports = { session, sessionName, autobio, database, author, packname, dev, owner, badwordkick, bad, mode, group, NotOwner, botname, botAdmin, antiforeign, menu, menulink, autoread, antilink, admin, mycode, antilinkall, anticall, antitag, antidel, wapresence, welcomegoodbye, antibot, herokuapi, prefix, port, gptdm, appname, autolike, autoviewstatus };  
