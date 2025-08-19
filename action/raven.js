@@ -18,6 +18,8 @@ const { DateTime } = require('luxon');
 const BASE_URL = 'https://noobs-api.top';
 const uploadtoimgur = require('../lib/imgur');
 const uploadToCatbox = require('../lib/catbox');
+const ytdownload = require("../lib/ytdl");
+const downloadVideo = require('../lib/ytdl2');
 const advice = require("badadvice");
 const {c, cpp, node, python, java} = require('compile-run');
 const acrcloud = require("acrcloud"); 
@@ -1070,7 +1072,53 @@ return reply(`Case *${text}* Not found`)
 }
         break;
 //========================================================================================================================//
-		      
+		  case 'wimbo': {
+			  if (!text) {
+    return m.reply("Please provide a video name!");
+  }
+
+  try {
+    const { videos } = await yts(text);
+    if (!videos || videos.length === 0) {
+      return m.reply("❌ No videos found.");
+    }
+
+    const video = videos[0];
+    const url = video.url;
+
+    await m.reply("Please wait your download is on progress. . .");
+
+    let mp4 = null;
+    try {
+      const result = await ytdownload(url);
+      mp4 = result?.mp4;
+    } catch (e) {}
+
+    if (mp4) {
+      await client.sendMessage(m.chat, {
+        video: { url: mp4 },
+        mimetype: "video/mp4",
+        fileName: `${video.title}.mp4`
+      }, { quoted: m });
+    } else {
+      await m.reply("⚠️ Fast method failed. Downloading video, please wait...");
+      const filePath = await downloadVideo(url, '360p');
+
+      await client.sendMessage(m.chat, {
+        video: fs.readFileSync(filePath),
+        mimetype: "video/mp4",
+        fileName: `${video.title}.mp4`
+      }, { quoted: m });
+
+      fs.unlinkSync(filePath);
+    }
+
+  } catch (err) {
+    return m.reply("❌ Download failed: " + err);
+  }
+}
+
+break;
 		      case "lyrics2": 
  try { 
  if (!text) return reply("Provide a song name!"); 
